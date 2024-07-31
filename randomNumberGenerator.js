@@ -15,7 +15,7 @@ class RandomNumberGenerator {
         const initialTime = Date.now();
         for(let y = 0; y < this.camera.screenDimensions.height /2; y++) {
             for(let x = 0; x < this.camera.screenDimensions.width/2; x++) {
-                const seed = (x >> y) | (y ^ x);
+                const seed = (x >> y) | (y | x);
 
                 const random = RandomNumberGenerator.XorShift(seed);
                 const color = random % 256;
