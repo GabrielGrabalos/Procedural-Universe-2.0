@@ -20,17 +20,16 @@ const camera = new Camera();
 camera.screenDimensions = { width: window.innerWidth, height: window.innerHeight };
 
 // Set the scene's camera
-//scene.currentCamera = camera;
+scene.currentCamera = camera;
 
 // Add the scene to the game
 game.setScene(scene);
 
 // Create a new object
-const infiniteGrid = new InfiniteDots(camera);
-const randomNumberGenerator = new RandomNumberGenerator(camera);
+const infiniteDots = new InfiniteDots(camera);
 
 // Add the object to the scene
-scene.addObject(randomNumberGenerator);
+scene.addObject(infiniteDots);
 
 // Start the game
 game.start();
