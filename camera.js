@@ -1,5 +1,5 @@
-class PanZoom {
-    constructor(args) {
+class Camera {
+    constructor(args = {}) {
         this.offset = { x: args.offsetX || 0, y: args.offsetY || 0 };
         this.scale = args.scale || 1;
         this.minZoom = args.minZoom || 0.1;
@@ -242,5 +242,42 @@ class PanZoom {
         const dx = touch2.clientX - touch1.clientX;
         const dy = touch2.clientY - touch1.clientY;
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    // ======================== || RENDER FUNCTIONS || ======================== //
+
+    applyTransform(context) {
+        context.scale(this.scale, this.scale);
+        context.translate(-this.offset.x, -this.offset.y);
+    }
+
+    update(input) {
+        if (input.mousedown) {
+            this.MouseDown(input.mousedown.x, input.mousedown.y);
+        }
+        
+        if (input.mousemove) {
+            this.MouseMove(input.mousemove.x, input.mousemove.y);
+        }
+
+        if (input.mouseup) {
+            this.MouseUp();
+        }
+
+        if (input.wheel) {
+            this.MouseWheel(input.wheel.x, input.wheel.y, input.wheel.deltaY);
+        }
+
+        if (input.touchstart) {
+            this.TouchStart(input.touchstart.touches);
+        }
+
+        if (input.touchmove) {
+            this.TouchMove(input.touchmove.touches);
+        }
+
+        if (input.touchend) {
+            this.TouchEnd(input.touchend.touches);
+        }
     }
 }

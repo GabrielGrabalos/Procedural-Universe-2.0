@@ -12,6 +12,8 @@ class Scene {
 
         // Array to keep track of objects in the scene
         this.objects = [];
+
+        this.currentCamera = null;
     }
 
     setWidth(width) {
@@ -39,6 +41,10 @@ class Scene {
 
     // Method to update the state of the scene
     update(input) {
+        if (this.currentCamera) {
+            this.currentCamera.update(input);
+        }
+
         this.objects.forEach(object => {
             if (typeof object.update === 'function') {
                 object.update(input);
@@ -49,10 +55,20 @@ class Scene {
     // Method to render the scene
     render() {
         this.clear();
+
+        if (this.currentCamera) {
+            this.context.save();
+            this.currentCamera.applyTransform(this.context);
+        }
+
         this.objects.forEach(object => {
             if (typeof object.draw === 'function') {
                 object.draw(this.context);
             }
         });
+
+        if (this.currentCamera) {
+            this.context.restore();
+        }
     }
 }

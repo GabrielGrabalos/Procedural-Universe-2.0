@@ -49,6 +49,7 @@ class Game {
             this.context.drawImage(this.currentScene.canvas, 0, 0);
         }
 
+        this.input = {};
         requestAnimationFrame(this.loop);
     }
 
@@ -73,5 +74,8 @@ class Game {
 
         // Resize event
         window.addEventListener('resize', this.handleInput.bind(this));
+
+        // Start the game loop
+        requestAnimationFrame(this.loop);
     }
 }
