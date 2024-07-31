@@ -9,10 +9,15 @@ window.onresize = () => {
 
     scene.setWidth(window.innerWidth);
     scene.setHeight(window.innerHeight);
+    
+    camera.screenDimensions = { width: window.innerWidth, height: window.innerHeight };
 };
 
 // Create a new camera
 const camera = new Camera();
+
+// Set the camera's world dimensions
+camera.screenDimensions = { width: window.innerWidth, height: window.innerHeight };
 
 // Set the scene's camera
 scene.currentCamera = camera;
@@ -21,7 +26,7 @@ scene.currentCamera = camera;
 game.setScene(scene);
 
 // Create a new object
-const infiniteGrid = new InfiniteGrid();
+const infiniteGrid = new InfiniteGrid(camera);
 
 // Add the object to the scene
 scene.addObject(infiniteGrid);
