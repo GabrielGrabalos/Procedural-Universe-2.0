@@ -1,6 +1,6 @@
 class PanZoom {
     constructor(args) {
-        this.offset = args.offset || { x: args.offsetX || 0, y: args.offsetY || 0 };
+        this.offset = { x: args.offsetX || 0, y: args.offsetY || 0 };
         this.scale = args.scale || 1;
         this.minZoom = args.minZoom || 0.1;
         this.maxZoom = args.maxZoom || 10;
@@ -15,21 +15,11 @@ class PanZoom {
         this.dragStart = { x: 0, y: 0 };
         this.dragEnd = { x: 0, y: 0 };
 
+        this.touchStartDistance = 0;
+        this.initialScale = this.scale;
+
         this.click = true;
-
-        // Canvas:
-        if (!args.createCanvas) return;
-
-        this.canvas = args.canvas || document.createElement('canvas');
-        this.ctx = args.ctx || this.canvas.getContext('2d');
-
-        this.configureCanvas();
-        this.canvasFunctions = args.canvasFunctions || [];
-
-        this.doLoop = args.doLoop || true;
     }
-
-    // ======================== || GETTERS AND SETTERS || ======================== //
 
     get Offset() {
         return this.offset;
@@ -108,107 +98,6 @@ class PanZoom {
 
     set Dragging(value) {
         this.drag = value;
-    }
-
-    get Canvas() {
-        return this.canvas;
-    }
-
-    set Canvas(value) {
-        this.canvas = value;
-    }
-
-    get Context() {
-        return this.ctx;
-    }
-
-    set Context(value) {
-        this.ctx = value;
-    }
-
-    get CanvasFunctions() {
-        return this.canvasFunctions;
-    }
-
-    set CanvasFunctions(value) {
-        this.canvasFunctions = value;
-    }
-
-    addCanvasFunction(func) {
-        this.canvasFunctions.push(func);
-    }
-
-    removeCanvasFunction(func) {
-        this.canvasFunctions = this.canvasFunctions.filter((f) => f !== func);
-    }
-
-    get doLoop() {
-        return this.doLoop;
-    }
-
-    set doLoop(value) {
-        this.doLoop = value;
-        if (this.doLoop) {
-            this.loop();
-        }
-    }
-
-    // ======================== || CANVAS FUNCTIONS || ======================== //
-
-    configureCanvas() {
-        this.canvas.width = this.screenDimensions.width;
-        this.canvas.height = this.screenDimensions.height;
-
-        this.bindEvents();
-    }
-
-    bindEvents() {
-        this.canvas.addEventListener('mousedown', (e) => {
-            this.MouseDown(e.offsetX, e.offsetY);
-        });
-
-        this.canvas.addEventListener('mousemove', (e) => {
-            this.MouseMove(e.offsetX, e.offsetY);
-        });
-
-        this.canvas.addEventListener('mouseup', () => {
-            this.MouseUp();
-        });
-
-        this.canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            this.MouseWheel(e.offsetX, e.offsetY, e.deltaY);
-        });
-
-        window.addEventListener('resize', () => {
-            this.ScreenDimensions = { width: window.innerWidth, height: window.innerHeight };
-            this.CenterOffset();
-        });
-    }
-
-    loop() {
-        this.update();
-
-        for (const func of this.canvasFunctions) {
-            func();
-        }
-
-        if (!noLoop) {
-            requestAnimationFrame(() => this.loop());
-        }
-    }
-
-    update() {
-        // Update stuff here
-    }
-
-    initialize() {
-        this.CenterOffset();
-        this.loop();
-    }
-
-    stop() {
-        this.doLoop = false;
     }
 
     // ======================== || CORE FUNCTIONS || ======================== //
@@ -307,5 +196,51 @@ class PanZoom {
         this.offset.y += mouseBeforeZoom.y - mouseAfterZoom.y;
 
         this.RestrictOffset();
+    }
+
+    // ======================== || TOUCH FUNCTIONS || ======================== //
+
+    TouchStart(touches) {
+        if (touches.length === 1) {
+            this.dragStart.x = touches[0].clientX;
+            this.dragStart.y = touches[0].clientY;
+            this.drag = true;
+        } else if (touches.length === 2) {
+            this.drag = false;
+            this.touchStartDistance = this.calculateDistance(touches);
+            this.initialScale = this.scale;
+        }
+    }
+
+    TouchMove(touches) {
+        if (touches.length === 1 && this.drag) {
+            const touch = touches[0];
+            this.offset.x -= (touch.clientX - this.dragStart.x) / this.scale;
+            this.offset.y -= (touch.clientY - this.dragStart.y) / this.scale;
+            this.dragStart = { x: touch.clientX, y: touch.clientY };
+            this.RestrictOffset();
+        } else if (touches.length === 2) {
+            const currentDistance = this.calculateDistance(touches);
+            const zoomFactor = currentDistance / this.touchStartDistance;
+            this.Scale = this.initialScale * zoomFactor;
+            this.RestrictOffset();
+        }
+    }
+
+    TouchEnd(touches) {
+        if (touches.length === 0) {
+            this.drag = false;
+        } else if (touches.length === 1) {
+            this.dragStart.x = touches[0].clientX;
+            this.dragStart.y = touches[0].clientY;
+            this.drag = true;
+        }
+    }
+
+    calculateDistance(touches) {
+        const [touch1, touch2] = touches;
+        const dx = touch2.clientX - touch1.clientX;
+        const dy = touch2.clientY - touch1.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 }
