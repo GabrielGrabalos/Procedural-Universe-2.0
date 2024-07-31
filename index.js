@@ -1,12 +1,15 @@
 const game = new Game(window.innerWidth, window.innerHeight);
 
+// Create a new scene
+const scene = new Scene(window.innerWidth, window.innerHeight);
+
 window.onresize = () => {
     game.setWidth(window.innerWidth);
     game.setHeight(window.innerHeight);
-};
 
-// Create a new scene
-const scene = new Scene(window.innerWidth, window.innerHeight);
+    scene.setWidth(window.innerWidth);
+    scene.setHeight(window.innerHeight);
+};
 
 // Create a new camera
 const camera = new Camera();
