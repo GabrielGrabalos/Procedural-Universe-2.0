@@ -26,7 +26,7 @@ scene.currentCamera = camera;
 game.setScene(scene);
 
 // Create a new object
-const infiniteGrid = new InfiniteGrid(camera);
+const infiniteGrid = new InfiniteDots(camera);
 
 // Add the object to the scene
 scene.addObject(infiniteGrid);
