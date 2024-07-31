@@ -27,7 +27,7 @@ game.setScene(scene);
 
 // Create a new object
 const infiniteGrid = new InfiniteDots(camera);
-const randomNumberGenerator = new RandomNumberGenerator(14, camera);
+const randomNumberGenerator = new RandomNumberGenerator(camera);
 
 // Add the object to the scene
 scene.addObject(randomNumberGenerator);
