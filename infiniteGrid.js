@@ -17,13 +17,14 @@ class InfiniteGrid {
         const color = 'black';
 
         const stw0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
+        const stw1 = this.camera.ScreenToWorld({ x: this.camera.screenDimensions.width, y: this.camera.screenDimensions.height });
 
-        for (let i = stw0.x - this.camera.offset.x % interval; i <= this.camera.screenDimensions.width; i += interval) {
-            this.drawLine(ctx, i, 0, i, this.camera.screenDimensions.height, color, 1);
+        for (let i = stw0.x - this.camera.offset.x % interval; i <= stw1.x; i += interval) {
+            this.drawLine(ctx, i, stw0.y, i, stw1.y, color, 1);
         }
     
-        for (let i = stw0.y - this.camera.offset.y % interval; i <= this.camera.screenDimensions.height; i += interval) {
-            this.drawLine(ctx, 0, i, this.camera.screenDimensions.width, i, color, 1);
+        for (let i = stw0.y - this.camera.offset.y % interval; i <= stw1.y; i += interval) {
+            this.drawLine(ctx, stw0.x, i, stw1.x, i, color, 1);
         }
     }
 }
