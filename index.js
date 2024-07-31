@@ -21,10 +21,10 @@ scene.currentCamera = camera;
 game.setScene(scene);
 
 // Create a new object
-const star = new Star();
+const infiniteGrid = new InfiniteGrid();
 
 // Add the object to the scene
-scene.addObject(star);
+scene.addObject(infiniteGrid);
 
 // Start the game
 game.start();
