@@ -13,6 +13,8 @@ class Star {
         this.shiftY = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
 
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(1, 3));
+
+        this.isBeingHovered = false;
     }
 
     calculateDistance(other){
@@ -21,10 +23,7 @@ class Star {
 
     update(input){
         // if mouse hovering:
-        
-        if (this.calculateDistance(input.mouse) <= this.radius){
-            console.log(this.name);
-        }
+        this.isBeingHovered = this.calculateDistance(input.mouse) <= this.radius;
     }
 
     draw(ctx) {
@@ -33,5 +32,11 @@ class Star {
         ctx.beginPath();
         ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
         ctx.fill();
+
+        if (this.isBeingHovered){
+            ctx.fillStyle = "white";
+            ctx.fillText(this.name, this.x + this.shiftX + 20, this.y + this.shiftY);
+            ctx.fillText(`(${this.x}, ${this.y})`, this.x + this.shiftX + 20, this.y + this.shiftY + 10);
+        }
     }
 }
