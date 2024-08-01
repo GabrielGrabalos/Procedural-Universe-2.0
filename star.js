@@ -11,6 +11,16 @@ class Star {
 
         this.shiftX = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
         this.shiftY = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
+
+        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(1, 3));
+    }
+
+    update(input){
+        // if mouse hovering:
+        if (input.mouse.x > this.x + this.shiftX - this.radius && input.mouse.x < this.x + this.shiftX + this.radius &&
+            input.mouse.y > this.y + this.shiftY - this.radius && input.mouse.y < this.y + this.shiftY + this.radius) {
+            console.log(this.name);
+        }
     }
 
     draw(ctx) {
