@@ -213,29 +213,25 @@ class Camera {
     }
 
     TouchMove(touches) {
-        if (touches.length === 1 && this.drag) {
+        if (touches.length === 1 || (touches.length === 2 && (this.scale > this.minZoom || this.scale < this.maxZoom))) {
             const touch = touches[0];
             this.offset.x -= (touch.clientX - this.dragStart.x) / this.scale;
             this.offset.y -= (touch.clientY - this.dragStart.y) / this.scale;
             this.dragStart = { x: touch.clientX, y: touch.clientY };
             this.RestrictOffset();
-        } else if (touches.length === 2) {
+        }
 
-            const avgTouchPoint = {
-                x: (touches[0].clientX + touches[1].clientX) / 2,
-                y: (touches[0].clientY + touches[1].clientY) / 2,
-            };
-
-            const avgTouchPointBeforeZoom = this.ScreenToWorld(avgTouchPoint);
+        if (touches.length === 2) {
+            const firstTouchBeforeZoom = this.ScreenToWorld({ x: touches[0].clientX, y: touches[0].clientY });
 
             const currentDistance = this.calculateDistance(touches);
             const zoomFactor = currentDistance / this.touchStartDistance;
             this.Scale = this.initialScale * zoomFactor;
 
-            const avgTouchPointAfterZoom = this.ScreenToWorld(avgTouchPoint);
+            const firstTouchAfterZoom = this.ScreenToWorld({ x: touches[0].clientX, y: touches[0].clientY });
 
-            this.offset.x += avgTouchPointBeforeZoom.x - avgTouchPointAfterZoom.x;
-            this.offset.y += avgTouchPointBeforeZoom.y - avgTouchPointAfterZoom.y;
+            this.offset.x += firstTouchBeforeZoom.x - firstTouchAfterZoom.x;
+            this.offset.y += firstTouchBeforeZoom.y - firstTouchAfterZoom.y;
 
             this.RestrictOffset();
         }
@@ -269,7 +265,7 @@ class Camera {
         if (input.mousedown) {
             this.MouseDown(input.mousedown.x, input.mousedown.y);
         }
-        
+
         if (input.mousemove) {
             this.MouseMove(input.mousemove.x, input.mousemove.y);
         }
