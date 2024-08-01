@@ -16,11 +16,11 @@ class Star {
     }
 
     update(input){
-        // if mouse hovering:
-        if (input.mouse.x > this.x + this.shiftX - this.radius && input.mouse.x < this.x + this.shiftX + this.radius &&
-            input.mouse.y > this.y + this.shiftY - this.radius && input.mouse.y < this.y + this.shiftY + this.radius) {
-            console.log(this.name);
-        }
+        // // if mouse hovering:
+        // if (input.mouse.x > this.x + this.shiftX - this.radius && input.mouse.x < this.x + this.shiftX + this.radius &&
+        //     input.mouse.y > this.y + this.shiftY - this.radius && input.mouse.y < this.y + this.shiftY + this.radius) {
+        //     console.log(this.name);
+        // }
     }
 
     draw(ctx) {

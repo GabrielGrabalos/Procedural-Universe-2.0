@@ -1,22 +1,25 @@
-class Universe {
+class Universe extends GameObject {
     constructor(camera) {
+        super();
+
         this.camera = camera;
+        this.previousInitialPosition = { x: 0, y: 0 };
+
+        this.currentStars = [];
+
+        this.addStars(0, 0, 50); // TODO: Make this better
     }
 
-    draw(ctx) {
-        const interval = 50;
+    addStars(initalX, initalY, interval = 50) {
+        console.log(this.currentStars.length);
+        this.currentStars = [];
 
-        const stw0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
         const stw1 = this.camera.ScreenToWorld({ x: this.camera.screenDimensions.width, y: this.camera.screenDimensions.height });
-
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(stw0.x, stw0.y, stw1.x - stw0.x, stw1.y - stw0.y);
-
-        const initalX = Math.floor(stw0.x / interval - 1) * interval;
-        const initalY = Math.floor(stw0.y / interval - 1) * interval;
 
         const finalX = Math.floor(stw1.x / interval + 1) * interval;
         const finalY = Math.floor(stw1.y / interval + 1) * interval;
+        
+        
 
         for (let y = initalY; y < finalY; y += interval) {
             for (let x = initalX; x < finalX; x += interval) {
@@ -24,9 +27,36 @@ class Universe {
 
                 if (RandomNumberGenerator.randInt(seed, 0, 20) == 1) {
                     const star = new Star(seed, x, y);
-                    star.draw(ctx);
+                    this.currentStars.push(star);
                 }
             }
         }
+    }
+
+    update(input) {
+        const interval = 50;
+
+        const stw0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
+
+        const initalX = Math.floor(stw0.x / interval - 1) * interval;
+        const initalY = Math.floor(stw0.y / interval - 1) * interval;
+
+        if (this.previousInitialPosition.x != initalX || this.previousInitialPosition.y != initalY) {
+            this.previousInitialPosition = { x: initalX, y: initalY };
+
+            this.addStars(initalX, initalY, interval);
+        }
+
+        this.currentStars.forEach(star => {
+            star.update(input);
+        });
+    }
+
+    draw(ctx) {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        this.currentStars.forEach(star => {
+            star.draw(ctx);
+        });
     }
 }

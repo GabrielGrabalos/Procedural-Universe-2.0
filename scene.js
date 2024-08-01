@@ -26,6 +26,10 @@ class Scene {
 
     // Method to add an object to the scene
     addObject(object) {
+        if (typeof object.setScene === 'function') {
+            object.setScene(this);
+        }
+        
         this.objects.push(object);
     }
 
