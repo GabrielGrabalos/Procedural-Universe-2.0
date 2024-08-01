@@ -26,10 +26,10 @@ scene.currentCamera = camera;
 game.setScene(scene);
 
 // Create a new object
-const infiniteDots = new InfiniteDots(camera);
+const universe = new Universe(camera);
 
 // Add the object to the scene
-scene.addObject(infiniteDots);
+scene.addObject(universe);
 
 // Start the game
 game.start();

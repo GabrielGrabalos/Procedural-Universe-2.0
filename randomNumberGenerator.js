@@ -24,11 +24,11 @@ class RandomNumberGenerator {
         seed ^= (seed << 13)
         seed ^= (seed >> 17)
         seed ^= (seed << 5)
-        return seed & 0xFFFFFFFF / 0xFFFFFFFF
+        return seed / 0xFFFFFFF
     }
 
     static randInt(seed, min, max) {
-        return min + ((RandomNumberGenerator.random(seed) * max) % (max - min + 1))
+        return Math.floor(min + (RandomNumberGenerator.random(seed) * 0xFFFFFFFF) % (max - min + 1))
     }
 
     static randFloat(seed, min, max) {
