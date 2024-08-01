@@ -15,9 +15,12 @@ class Universe {
         const initalX = Math.floor(stw0.x / interval) * interval;
         const initalY = Math.floor(stw0.y / interval) * interval;
 
-        for (let y = initalY; y < stw1.y; y += interval) {
-            for (let x = initalX; x < stw1.x; x += interval) {
-                const seed = y**2 << 16 | x**2;
+        const finalX = Math.floor(stw1.x / interval) * interval;
+        const finalY = Math.floor(stw1.y / interval) * interval;
+
+        for (let y = initalY; y < finalY; y += interval) {
+            for (let x = initalX; x < finalX; x += interval) {
+                const seed = (y) << 16 | (x & 0xFFFF);
 
                 if (RandomNumberGenerator.randInt(seed, 0, 20) == 1) {
                     const star = new Star(x, y);
