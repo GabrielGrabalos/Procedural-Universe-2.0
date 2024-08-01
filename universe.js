@@ -11,15 +11,12 @@ class Universe extends GameObject {
     }
 
     addStars(initalX, initalY, interval = 50) {
-        console.log(this.currentStars.length);
         this.currentStars = [];
 
         const stw1 = this.camera.ScreenToWorld({ x: this.camera.screenDimensions.width, y: this.camera.screenDimensions.height });
 
-        const finalX = Math.floor(stw1.x / interval + 1) * interval;
-        const finalY = Math.floor(stw1.y / interval + 1) * interval;
-        
-        
+        const finalX = Math.floor(stw1.x / interval + 2) * interval;
+        const finalY = Math.floor(stw1.y / interval + 2) * interval;
 
         for (let y = initalY; y < finalY; y += interval) {
             for (let x = initalX; x < finalX; x += interval) {
@@ -38,8 +35,13 @@ class Universe extends GameObject {
 
         const stw0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
 
-        const initalX = Math.floor(stw0.x / interval - 1) * interval;
-        const initalY = Math.floor(stw0.y / interval - 1) * interval;
+        const initalX = Math.floor(stw0.x / interval - 2) * interval;
+        const initalY = Math.floor(stw0.y / interval - 2) * interval;
+
+        if (input.resize) {
+            this.addStars(initalX, initalY, interval);            
+            return;
+        }
 
         if (this.previousInitialPosition.x != initalX || this.previousInitialPosition.y != initalY) {
             this.previousInitialPosition = { x: initalX, y: initalY };
@@ -53,8 +55,6 @@ class Universe extends GameObject {
     }
 
     draw(ctx) {
-        ctx.fillStyle = "#000000";
-        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         this.currentStars.forEach(star => {
             star.draw(ctx);
         });

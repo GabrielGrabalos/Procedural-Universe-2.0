@@ -14,6 +14,8 @@ class Scene {
         this.objects = [];
 
         this.currentCamera = null;
+
+        this.backgroundColor = '#000000';
     }
 
     setWidth(width) {
@@ -24,12 +26,20 @@ class Scene {
         this.height = this.canvas.height = height;
     }
 
+    setCamera(camera) {
+        this.currentCamera = camera;
+    }
+
+    setBackgroundColor(color) {
+        this.backgroundColor = color;
+    }
+
     // Method to add an object to the scene
     addObject(object) {
         if (typeof object.setScene === 'function') {
             object.setScene(this);
         }
-        
+
         this.objects.push(object);
     }
 
@@ -40,14 +50,19 @@ class Scene {
 
     // Method to clear the canvas
     clear() {
-        this.context.clearRect(0, 0, this.width, this.height);
+        this.context.fillStyle = this.backgroundColor;
+        this.context.fillRect(0, 0, this.width, this.height);
     }
 
     // Method to update the state of the scene
     update(input) {
         if (this.currentCamera) {
             this.currentCamera.update(input);
-        }
+
+            // update input.mouse to account for camera
+            const mouse = this.currentCamera.ScreenToWorld(input.mouse);
+            input.mouse = mouse;
+        }        
 
         this.objects.forEach(object => {
             if (typeof object.update === 'function') {

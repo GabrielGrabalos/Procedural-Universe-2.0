@@ -15,12 +15,16 @@ class Star {
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(1, 3));
     }
 
+    calculateDistance(other){
+        return Math.sqrt((this.x + this.shiftX - other.x) ** 2 + (this.y + this.shiftY - other.y) ** 2);
+    }
+
     update(input){
-        // // if mouse hovering:
-        // if (input.mouse.x > this.x + this.shiftX - this.radius && input.mouse.x < this.x + this.shiftX + this.radius &&
-        //     input.mouse.y > this.y + this.shiftY - this.radius && input.mouse.y < this.y + this.shiftY + this.radius) {
-        //     console.log(this.name);
-        // }
+        // if mouse hovering:
+        
+        if (this.calculateDistance(input.mouse) <= this.radius){
+            console.log(this.name);
+        }
     }
 
     draw(ctx) {

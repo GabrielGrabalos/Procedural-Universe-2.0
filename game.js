@@ -13,7 +13,9 @@ class Game {
         this.currentScene = null;
 
         // Input state
-        this.input = {};
+        this.input = {
+            mouse: { x: 0, y: 0 }
+        };
 
         // Bind the main loop to the instance
         this.loop = this.loop.bind(this);
@@ -38,6 +40,11 @@ class Game {
     // Method to handle user input
     handleInput(event) {
         this.input[event.type] = event;
+
+        if (event.type === 'mousemove') {
+            this.input.mouse.x = event.clientX - this.canvas.offsetLeft;
+            this.input.mouse.y = event.clientY - this.canvas.offsetTop;
+        }
     }
 
     // Main game loop
@@ -49,7 +56,9 @@ class Game {
             this.context.drawImage(this.currentScene.canvas, 0, 0);
         }
 
-        this.input = {};
+        this.input = {
+            mouse: { x: this.input.mouse.x, y: this.input.mouse.y }
+        };
         requestAnimationFrame(this.loop);
     }
 
