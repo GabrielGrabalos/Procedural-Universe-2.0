@@ -12,8 +12,8 @@ class Universe {
         ctx.fillStyle = '#000000';
         ctx.fillRect(stw0.x, stw0.y, stw1.x - stw0.x, stw1.y - stw0.y);
 
-        const initalX = Math.floor(stw0.x / interval) * interval;
-        const initalY = Math.floor(stw0.y / interval) * interval;
+        const initalX = Math.floor(stw0.x / interval - 1) * interval;
+        const initalY = Math.floor(stw0.y / interval - 1) * interval;
 
         const finalX = Math.floor(stw1.x / interval + 1) * interval;
         const finalY = Math.floor(stw1.y / interval + 1) * interval;
