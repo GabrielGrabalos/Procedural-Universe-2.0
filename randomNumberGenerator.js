@@ -9,7 +9,7 @@ class RandomNumberGenerator {
     }
 
     nextFloat(min, max) {
-        return min + (this.next()) / 0xFFFFFFFF * (max - min)
+        return min + (this.next()) / 0xFFFFFF * (max - min)
     }
 
     next() {

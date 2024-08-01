@@ -8,13 +8,16 @@ class Star {
 
         this.color = Star.starColors[this.rng.nextInt(0, Star.starColors.length)];
         this.radius = this.rng.nextFloat(5, 20);
+
+        this.shiftX = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
+        this.shiftY = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
     }
 
     draw(ctx) {
         ctx.fillStyle = this.color;
         
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
         ctx.fill();
     }
 }
