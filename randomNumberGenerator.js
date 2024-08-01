@@ -1,22 +1,22 @@
 class RandomNumberGenerator {
-    constructor(camera) {
-        this.state = 0xdeadbeef;
+    constructor(seed, camera = null) {
+        this.state = seed || 0xdeadbeef;
         this.camera = camera;
     }
 
-    randInt(min, max) {
-        return min + (this.random() % (max - min + 1))
+    nextInt(min, max) {
+        return min + (this.next() % (max - min + 1))
     }
 
-    randFloat(min, max) {
-        return min + (this.random()) / 0xFFFFFFFF * (max - min)
+    nextFloat(min, max) {
+        return min + (this.next()) / 0xFFFFFFFF * (max - min)
     }
 
-    random() {
+    next() {
         this.state ^= (this.state << 13)
         this.state ^= (this.state >> 17)
         this.state ^= (this.state << 5)
-        return this.state & 0xFFFFFFFF
+        return Math.abs(this.state & 0xFFFFFFFF)
     }
 
     // Static methods:
