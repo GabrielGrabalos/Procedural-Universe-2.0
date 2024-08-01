@@ -13,6 +13,36 @@
             box-sizing: border-box;
             overflow: hidden;
         }
+
+        /* Prevent double-tap to zoom */
+        canvas {
+            touch-action: none;
+            -ms-touch-action: none;
+            /* For older IE */
+            -webkit-user-select: none;
+            /* For Safari */
+            -ms-user-select: none;
+            /* For older IE */
+            user-select: none;
+            /* Standard */
+        }
+
+        /* Prevent text selection */
+        body,
+        canvas {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Old versions of Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+        }
     </style>
 </head>
 

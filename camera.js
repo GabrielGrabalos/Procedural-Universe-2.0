@@ -220,9 +220,23 @@ class Camera {
             this.dragStart = { x: touch.clientX, y: touch.clientY };
             this.RestrictOffset();
         } else if (touches.length === 2) {
+
+            const avgTouchPoint = {
+                x: (touches[0].clientX + touches[1].clientX) / 2,
+                y: (touches[0].clientY + touches[1].clientY) / 2,
+            };
+
+            const avgTouchPointBeforeZoom = this.ScreenToWorld(avgTouchPoint);
+
             const currentDistance = this.calculateDistance(touches);
             const zoomFactor = currentDistance / this.touchStartDistance;
             this.Scale = this.initialScale * zoomFactor;
+
+            const avgTouchPointAfterZoom = this.ScreenToWorld(avgTouchPoint);
+
+            this.offset.x += avgTouchPointBeforeZoom.x - avgTouchPointAfterZoom.x;
+            this.offset.y += avgTouchPointBeforeZoom.y - avgTouchPointAfterZoom.y;
+
             this.RestrictOffset();
         }
     }
