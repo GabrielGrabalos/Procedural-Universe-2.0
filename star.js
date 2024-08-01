@@ -9,6 +9,6 @@ class Star {
 
     draw(ctx) {
         ctx.fillStyle = Star.starColors[RandomNumberGenerator.randInt(this.seed, 0, Star.starColors.length)];
-        ctx.fillRect(this.x, this.y, 10, 10);
+        ctx.fillRect(this.x, this.y, 30, 30);
     }
 }
