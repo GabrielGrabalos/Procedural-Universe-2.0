@@ -50,15 +50,17 @@ class Game {
     // Main game loop
     loop() {
         if (this.currentScene) {
-            this.currentScene.update(this.input);
+            this.currentScene.update({ ...this.input});
             this.currentScene.render();
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.context.drawImage(this.currentScene.canvas, 0, 0);
         }
 
+        // Reset the input
         this.input = {
-            mouse: { x: this.input.mouse.x, y: this.input.mouse.y }
+            mouse: this.input.mouse
         };
+        
         requestAnimationFrame(this.loop);
     }
 

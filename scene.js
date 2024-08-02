@@ -59,7 +59,6 @@ class Scene {
         if (this.currentCamera) {
             this.currentCamera.update(input);
 
-            // update input.mouse to account for camera
             const mouse = this.currentCamera.ScreenToWorld(input.mouse);
             input.mouse = mouse;
         }        

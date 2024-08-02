@@ -12,7 +12,7 @@ class Star {
         this.shiftX = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
         this.shiftY = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
 
-        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(1, 3));
+        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
 
         this.isBeingHovered = false;
     }
