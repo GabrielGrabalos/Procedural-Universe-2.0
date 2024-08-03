@@ -1,54 +1,57 @@
 class NameGenerator {
-    static generateSilable(rng) {
-        const alphabet = "abcdefghijklmnopqrstuvwxyz";
-        const vowels = "aeiou";
+    static alphabet = "abcdefghijklmnopqrstuvwxyz";
+    static vowels = "aeiou";
 
-        const table = [
-            ["a", "snrl"],
-            ["e", "snrl"],
-            ["i", "snrl"],
-            ["o", "snrl"],
-            ["u", "snrl"],
-            ["b", "aeiourl"],
-            ["c", "aeiouhrl"],
-            ["d", "aeiour"],
-            ["f", "aeiourl"],
-            ["g", "aeiourl"],
-            ["h", "aeiou"],
-            ["j", "aeiou"],
-            ["k", "aeiou"],
-            ["l", "aeiouh"],
-            ["m", "aeiou"],
-            ["n", "aeiouh"],
-            ["p", "aeiourhl"],
-            ["q", "aeiou"],
-            ["r", "aeiou"],
-            ["s", "aeiouh"],
-            ["t", "aeiourh"],
-            ["v", "aeiourl"],
-            ["w", "aeiou"],
-            ["x", "aeiou"],
-            ["y", "aeiou"],
-            ["z", "aeiou"]
-        ]
+    static prefixes = [
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+        "n", "p", "r", "s", "t", "v", "z",
+        "br", "cr", "dr", "fr", "gr", "pr", "tr",
+        "fl", "gl", "pl",
+        "qu",
+        "ch", "th"
+    ]
+
+    static suffixes = [
+        "l", "n", "r", "s",
+    ]
+
+    static endings = [
+        "s", "l"
+    ]
+
+    static generateSilable(rng) {
+        /**
+         * Silables are going to be composed of 3 parts:
+         * 
+         *      1. The prefix (optional): consonants, or digraphs, that can be at the beginning of a silable.
+         *      2. The vowel:             a single vowel.
+         *      3. The suffix (optional): any letter that could end a silable.
+         *      4. The ending (optional): if step 3 is a vowel, then we can add a consonant to end the silable.
+         * 
+         * The probability of each part is going to be:
+         * 
+         *      1. Prefix: 40%
+         *      2. Vowel: 100%
+         *      3. Suffix: 60%
+         *      4. Ending: 40% (if step 3 is a vowel)
+        **/
 
         let silable = "";
 
-        silable += alphabet[rng.nextInt(0, alphabet.length - 1)];
-
-        let tableForLetter = table.find((element) => element[0] == silable[0])[1];
-        silable += tableForLetter[rng.nextInt(0, tableForLetter.length - 1)];
-
-        // if there are no vowels, add one
-        if (!silable.split("").some((char) => vowels.includes(char))) {
-            silable += vowels[rng.nextInt(0, vowels.length - 1)];
+        // Step 1: Prefix
+        if (rng.nextInt(0, 100) < 40) {
+            silable += NameGenerator.prefixes[rng.nextInt(0, NameGenerator.prefixes.length - 1)];
         }
-        else if (vowels.includes(silable[1])){
-            // small chance o adding a consonant:
-            if (rng.nextInt(0, 100) < 10) {
-                tableForLetter = table.find((element) => element[0] == silable[1])[1];
-                silable += tableForLetter[rng.nextInt(0, tableForLetter.length - 1)];
-            }
+
+        // Step 2: Vowel
+        // Can't be a double vowel (would happen when "qu" is the prefix)
+        if (silable.length === 0 || !NameGenerator.vowels.includes(silable[silable.length - 1])) {
+            silable += NameGenerator.vowels[rng.nextInt(0, NameGenerator.vowels.length - 1)];
+        }
+
+        // Step 3: Suffix
+        if (rng.nextInt(0, 100) < 60) {
+            silable += NameGenerator.suffixes[rng.nextInt(0, NameGenerator.suffixes.length - 1)];
         }
 
         return silable;
