@@ -69,6 +69,10 @@ class Scene {
 
             const mouse = this.currentCamera.ScreenToWorld(input.mouse);
             input.mouse = mouse;
+
+            if (input.click){
+                input.click = this.currentCamera.click;
+            }
         }        
 
         this.objects.forEach(object => {

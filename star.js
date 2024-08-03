@@ -24,6 +24,10 @@ class Star {
     update(input){
         // if mouse hovering:
         this.isBeingHovered = this.calculateDistance(input.mouse) <= this.radius;
+
+        if (input.click && this.isBeingHovered){
+            console.log(this.name);
+        }
     }
 
     draw(ctx) {
