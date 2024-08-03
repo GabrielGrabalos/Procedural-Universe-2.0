@@ -289,5 +289,10 @@ class Camera {
         if (input.touchend) {
             this.TouchEnd(input.touchend.touches);
         }
+
+        if (input.resize) {
+            this.ScreenDimensions.width = window.innerWidth;   // TODO: Change this, for the love of God
+            this.ScreenDimensions.height = window.innerHeight; // TODO: Change this, for the love of God
+        }
     }
 }

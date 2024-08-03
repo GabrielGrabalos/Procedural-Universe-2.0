@@ -1,5 +1,5 @@
 class Scene {
-    constructor(width = 800, height = 600) {
+    constructor({ width = 800, height = 600, objects }) {
         // Create an offscreen canvas
         this.canvas = document.createElement('canvas');
         this.canvas.width = width;
@@ -7,11 +7,15 @@ class Scene {
         this.context = this.canvas.getContext('2d');
 
         // Store the dimensions
-        this.width = width;
-        this.height = height;
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;
 
         // Array to keep track of objects in the scene
         this.objects = [];
+
+        if (objects) {
+            objects.forEach(object => this.addObject(object));
+        }
 
         this.currentCamera = null;
 
@@ -32,6 +36,10 @@ class Scene {
 
     setBackgroundColor(color) {
         this.backgroundColor = color;
+    }
+
+    setCursor(cursor) {
+        this.canvas.style.cursor = cursor;
     }
 
     // Method to add an object to the scene
@@ -64,7 +72,7 @@ class Scene {
         }        
 
         this.objects.forEach(object => {
-            if (typeof object.update === 'function') {
+            if (typeof object.update === 'function') {                
                 object.update(input);
             }
         });

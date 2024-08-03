@@ -12,9 +12,9 @@ class Star {
         this.shiftX = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
         this.shiftY = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
 
-        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
-
         this.isBeingHovered = false;
+        
+        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
     }
 
     calculateDistance(other){
@@ -32,11 +32,5 @@ class Star {
         ctx.beginPath();
         ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
         ctx.fill();
-
-        if (this.isBeingHovered){
-            ctx.fillStyle = "white";
-            ctx.fillText(this.name, this.x + this.shiftX + 20, this.y + this.shiftY);
-            ctx.fillText(`(${this.x}, ${this.y})`, this.x + this.shiftX + 20, this.y + this.shiftY + 10);
-        }
     }
 }

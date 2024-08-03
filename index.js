@@ -1,7 +1,9 @@
 const game = new Game(window.innerWidth, window.innerHeight);
 
-// Create a new scene
-const scene = new Scene(window.innerWidth, window.innerHeight);
+const scene = new Scene({
+    width: window.innerWidth,
+    height: window.innerHeight
+});
 
 window.onresize = () => {
     game.setWidth(window.innerWidth);
@@ -9,27 +11,21 @@ window.onresize = () => {
 
     scene.setWidth(window.innerWidth);
     scene.setHeight(window.innerHeight);
-    
-    camera.screenDimensions = { width: window.innerWidth, height: window.innerHeight };
 };
 
-// Create a new camera
-const camera = new Camera();
+const camera = new Camera({
+    screenDimensions: { width: window.innerWidth, height: window.innerHeight }
+});
 
-// Set the camera's world dimensions
-camera.screenDimensions = { width: window.innerWidth, height: window.innerHeight };
+scene.setCamera(camera);
 
-// Set the scene's camera
-scene.currentCamera = camera;
-
-// Add the scene to the game
-game.setScene(scene);
-
-// Create a new object
 const universe = new Universe(camera);
 
-// Add the object to the scene
 scene.addObject(universe);
+
+scene.setCursor('grab');
+
+game.setScene(scene);
 
 // Start the game
 game.start();

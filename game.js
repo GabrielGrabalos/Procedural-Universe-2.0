@@ -54,6 +54,8 @@ class Game {
             this.currentScene.render();
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.context.drawImage(this.currentScene.canvas, 0, 0);
+
+            this.canvas.style.cursor = this.currentScene.canvas.style.cursor;
         }
 
         // Reset the input

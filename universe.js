@@ -49,6 +49,14 @@ class Universe extends GameObject {
             this.addStars(initalX, initalY, interval);
         }
 
+        // Update cursor:
+        if (input.mousedown){
+            this.scene.setCursor('grabbing');
+        }
+        else if (input.mouseup){
+            this.scene.setCursor('grab');
+        }
+
         this.currentStars.forEach(star => {
             star.update(input);
         });
