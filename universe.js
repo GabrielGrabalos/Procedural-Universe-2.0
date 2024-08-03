@@ -19,7 +19,7 @@ class Universe extends Scene {
 
                 if (RandomNumberGenerator.randInt(seed, 0, 20) == 1) {
                     const star = new Star(seed, x, y);
-                    this.objects.push(star);
+                    this.addObject(star);
                 }
             }
         }

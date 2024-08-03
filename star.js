@@ -1,7 +1,9 @@
-class Star {
+class Star extends GameObject {
     static starColors = ["#ffffff", "#ffcc99", "#ffcc66", "#ffcc33", "#ffcc00", "#ff9933", "#ff9900", "#ff6600", "#ff6633", "#ff3300", "#ff1133"];
 
     constructor(seed, x, y) {
+        super();
+        
         this.rng = new RandomNumberGenerator(seed);
         this.x = x;
         this.y = y;
@@ -37,7 +39,7 @@ class Star {
         ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
         ctx.fill();
 
-        if (this.isBeingHovered){
+        if (this.isBeingHovered && !this.scene.camera.drag){
             // Circle around the star
             ctx.strokeStyle = "#ffffff";
             ctx.lineWidth = 2;
