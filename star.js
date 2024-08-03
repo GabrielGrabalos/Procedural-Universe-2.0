@@ -32,5 +32,14 @@ class Star {
         ctx.beginPath();
         ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
         ctx.fill();
+
+        if (this.isBeingHovered){
+            // Circle around the star
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius + 5, 0, Math.PI * 2);
+            ctx.stroke();
+        }
     }
 }

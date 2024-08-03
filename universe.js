@@ -49,17 +49,7 @@ class Universe extends GameObject {
             this.addStars(initalX, initalY, interval);
         }
 
-        // Update cursor:
-        if (input.mousedown){
-            this.scene.setCursor('grabbing');
-        }
-        else if (input.mouseup){
-            this.scene.setCursor('grab');
-        }
-
         let isAnyStarBeingHovered = false;
-
-        const previousCursor = this.scene.canvas.style.cursor; // TODO: Change this, for the love of God
 
         this.currentStars.forEach(star => {
             star.update(input);
@@ -70,8 +60,17 @@ class Universe extends GameObject {
             }
         });
 
-        if (!isAnyStarBeingHovered){
-            this.scene.setCursor(previousCursor);
+        // Awful, but working, for now.
+        if (!isAnyStarBeingHovered && this.scene.canvas.style.cursor === 'pointer'){
+            this.scene.setCursor('grab');
+        }
+
+        // Update cursor:
+        if (input.mousedown){
+            this.scene.setCursor('grabbing');
+        }
+        else if (input.mouseup){
+            this.scene.setCursor('grab');
         }
     }
 
