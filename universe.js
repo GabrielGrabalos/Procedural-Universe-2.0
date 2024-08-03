@@ -57,9 +57,22 @@ class Universe extends GameObject {
             this.scene.setCursor('grab');
         }
 
+        let isAnyStarBeingHovered = false;
+
+        const previousCursor = this.scene.canvas.style.cursor; // TODO: Change this, for the love of God
+
         this.currentStars.forEach(star => {
             star.update(input);
+
+            if (star.isBeingHovered){
+                this.scene.setCursor('pointer');
+                isAnyStarBeingHovered = true;
+            }
         });
+
+        if (!isAnyStarBeingHovered){
+            this.scene.setCursor(previousCursor);
+        }
     }
 
     draw(ctx) {
