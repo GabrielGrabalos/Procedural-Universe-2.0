@@ -2,7 +2,8 @@ class SolarSystemScene extends Scene {
     constructor({ width = 800, height = 600, objects, star, previousScene }) {
         super({ width, height, objects });
 
-        this.star = { ...star };
+        // Make copy of the star:
+        this.star = new Star(star.seed, 0, 0); // TODO: clone function in GameObject class
 
         // Star conigurations:
         this.star.x = 0;
@@ -14,8 +15,9 @@ class SolarSystemScene extends Scene {
         // Camera:
         this.setCamera(new Camera({
             screenDimensions: { width, height },
-            worldDimensions: { width: this.star.radius * 20, height: this.star.radius * 10 },
         }));
+
+        this.camera.CenterOffset();
     }
 
     returnToPreviousScene() {

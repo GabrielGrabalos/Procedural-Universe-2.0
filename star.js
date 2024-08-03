@@ -5,6 +5,7 @@ class Star extends GameObject {
         super();
         
         this.rng = new RandomNumberGenerator(seed);
+        this.seed = seed;
         this.x = x;
         this.y = y;
 
@@ -28,7 +29,15 @@ class Star extends GameObject {
         this.isBeingHovered = this.calculateDistance(input.mouse) <= this.radius;
 
         if (input.click && this.isBeingHovered){
-            console.log(this.name);
+            // Create and set new Solar System scene:
+            const solarSystemScene = new SolarSystemScene({
+                width: this.scene.width,
+                height: this.scene.height,
+                star: this,
+                previousScene: this.scene,
+            });
+
+            this.scene.game.setScene(solarSystemScene);
         }
     }
 

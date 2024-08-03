@@ -141,8 +141,8 @@ class Camera {
     }
 
     CenterOffset() {
-        if (!this.worldDimensions || !this.screenDimensions) {
-            throw new Error('World and screen dimensions must be set');
+        if (!this.screenDimensions) {
+            throw new Error('Screen dimensions must be set');
         }
 
         this.offset = {

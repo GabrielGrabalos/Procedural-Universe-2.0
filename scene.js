@@ -95,8 +95,8 @@ class Scene {
         this.clear();
 
         if (this.camera) {
-            this.context.save();
-            this.camera.applyTransform(this.context);
+            this.context.save(); // Save the current context state: scale, rotation, etc.
+            this.camera.applyTransform(this.context); // Apply the camera transform.
         }
 
         this.objects.forEach(object => {
@@ -106,7 +106,7 @@ class Scene {
         });
 
         if (this.camera) {
-            this.context.restore();
+            this.context.restore(); // Restore the context to the state before the camera transform.
         }
     }
 }
