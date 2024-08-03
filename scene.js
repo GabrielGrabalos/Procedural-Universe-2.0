@@ -17,9 +17,11 @@ class Scene {
             objects.forEach(object => this.addObject(object));
         }
 
-        this.currentCamera = null;
+        this.camera = null;
 
         this.backgroundColor = '#000000';
+
+        this.game = null;
     }
 
     setWidth(width) {
@@ -31,7 +33,7 @@ class Scene {
     }
 
     setCamera(camera) {
-        this.currentCamera = camera;
+        this.camera = camera;
     }
 
     setBackgroundColor(color) {
@@ -63,17 +65,19 @@ class Scene {
     }
 
     // Method to update the state of the scene
-    update(input) {
-        if (this.currentCamera) {
-            this.currentCamera.update(input);
-
-            const mouse = this.currentCamera.ScreenToWorld(input.mouse);
+    updateScene(input) {
+        if (this.camera) {
+            this.camera.update(input);
+            
+            const mouse = this.camera.ScreenToWorld(input.mouse);
             input.mouse = mouse;
 
             if (input.click){
-                input.click = this.currentCamera.click;
+                input.click = this.camera.click;
             }
-        }        
+        }
+
+        this.update(input);
 
         this.objects.forEach(object => {
             if (typeof object.update === 'function') {                
@@ -82,13 +86,17 @@ class Scene {
         });
     }
 
+    update(input) {
+        // Should be implemented by the subclass
+    }
+
     // Method to render the scene
     render() {
         this.clear();
 
-        if (this.currentCamera) {
+        if (this.camera) {
             this.context.save();
-            this.currentCamera.applyTransform(this.context);
+            this.camera.applyTransform(this.context);
         }
 
         this.objects.forEach(object => {
@@ -97,7 +105,7 @@ class Scene {
             }
         });
 
-        if (this.currentCamera) {
+        if (this.camera) {
             this.context.restore();
         }
     }

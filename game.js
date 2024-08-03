@@ -35,6 +35,7 @@ class Game {
     // Method to switch scenes
     setScene(scene) {
         this.currentScene = scene;
+        this.currentScene.game = this;
     }
 
     // Method to handle user input
@@ -50,7 +51,7 @@ class Game {
     // Main game loop
     loop() {
         if (this.currentScene) {
-            this.currentScene.update({ ...this.input});
+            this.currentScene.updateScene({ ...this.input});
             this.currentScene.render();
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.context.drawImage(this.currentScene.canvas, 0, 0);

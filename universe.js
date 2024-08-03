@@ -1,17 +1,12 @@
-class Universe extends GameObject {
-    constructor(camera) {
-        super();
+class Universe extends Scene {
+    constructor(options) {
+        super(options);
 
-        this.camera = camera;
         this.previousInitialPosition = { x: 0, y: 0 };
-
-        this.currentStars = [];
-
-        this.addStars(0, 0, 50); // TODO: Make this better
     }
 
     addStars(initalX, initalY, interval = 50) {
-        this.currentStars = [];
+        this.objects = [];
 
         const stw1 = this.camera.ScreenToWorld({ x: this.camera.screenDimensions.width, y: this.camera.screenDimensions.height });
 
@@ -24,7 +19,7 @@ class Universe extends GameObject {
 
                 if (RandomNumberGenerator.randInt(seed, 0, 20) == 1) {
                     const star = new Star(seed, x, y);
-                    this.currentStars.push(star);
+                    this.objects.push(star);
                 }
             }
         }
@@ -38,7 +33,7 @@ class Universe extends GameObject {
         const initalX = Math.floor(stw0.x / interval - 2) * interval;
         const initalY = Math.floor(stw0.y / interval - 2) * interval;
 
-        if (input.resize) {
+        if (input.resize || this.objects.length == 0) {
             this.addStars(initalX, initalY, interval);            
             return;
         }
@@ -51,32 +46,27 @@ class Universe extends GameObject {
 
         let isAnyStarBeingHovered = false;
 
-        this.currentStars.forEach(star => {
-            star.update(input);
-
+        this.objects.forEach(star => {
             if (star.isBeingHovered){
-                this.scene.setCursor('pointer');
                 isAnyStarBeingHovered = true;
             }
         });
 
+        if (isAnyStarBeingHovered && !this.camera.drag){
+            this.setCursor('pointer');
+        }
+
         // Awful, but working, for now.
-        if (!isAnyStarBeingHovered && this.scene.canvas.style.cursor === 'pointer'){
-            this.scene.setCursor('grab');
+        if (!isAnyStarBeingHovered && this.canvas.style.cursor === 'pointer'){
+            this.setCursor('grab');
         }
 
         // Update cursor:
         if (input.mousedown){
-            this.scene.setCursor('grabbing');
+            this.setCursor('grabbing');
         }
         else if (input.mouseup){
-            this.scene.setCursor('grab');
+            this.setCursor('grab');
         }
-    }
-
-    draw(ctx) {
-        this.currentStars.forEach(star => {
-            star.draw(ctx);
-        });
     }
 }
