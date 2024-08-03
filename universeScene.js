@@ -1,4 +1,4 @@
-class Universe extends Scene {
+class UniverseScene extends Scene {
     constructor(options) {
         super(options);
 

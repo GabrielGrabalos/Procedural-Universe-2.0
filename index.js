@@ -1,6 +1,6 @@
 const game = new Game(window.innerWidth, window.innerHeight);
 
-const universe = new Universe({
+const universe = new UniverseScene({
     width: window.innerWidth,
     height: window.innerHeight
 });
