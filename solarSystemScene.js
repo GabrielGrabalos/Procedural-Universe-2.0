@@ -20,9 +20,9 @@ class SolarSystemScene extends Scene {
         this.camera.CenterOffset();
     }
 
-    returnToPreviousScene() {
-        if (this.previousScene) {
-            this.game.setScene(this.previousScene);
+    update(input){        
+        if (input.keydown) {
+            this.returnToPreviousScene();
         }
     }
 }

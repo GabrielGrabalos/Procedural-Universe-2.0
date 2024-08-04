@@ -65,6 +65,12 @@ class Scene {
         this.objects = this.objects.filter(obj => obj !== object);
     }
 
+    returnToPreviousScene() {
+        if (this.previousScene) {
+            this.game.setScene(this.previousScene);
+        }
+    }
+
     // Method to clear the canvas
     clear() {
         this.context.fillStyle = this.backgroundColor;
