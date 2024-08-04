@@ -26,6 +26,9 @@ class UniverseScene extends Scene {
     }
 
     update(input) {
+        // Update cursor:
+        this.requestCursor(this.camera.Dragging ? "grabbing" : "grab");
+
         const interval = 50;
 
         const stw0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
@@ -34,7 +37,7 @@ class UniverseScene extends Scene {
         const initalY = Math.floor(stw0.y / interval - 2) * interval;
 
         if (input.resize || this.objects.length == 0) {
-            this.addStars(initalX, initalY, interval);            
+            this.addStars(initalX, initalY, interval);
             return;
         }
 
@@ -42,31 +45,6 @@ class UniverseScene extends Scene {
             this.previousInitialPosition = { x: initalX, y: initalY };
 
             this.addStars(initalX, initalY, interval);
-        }
-
-        let isAnyStarBeingHovered = false;
-
-        this.objects.forEach(star => {
-            if (star.isBeingHovered){
-                isAnyStarBeingHovered = true;
-            }
-        });
-
-        if (isAnyStarBeingHovered && !this.camera.drag){
-            this.setCursor('pointer');
-        }
-
-        // Awful, but working, for now.
-        if (!isAnyStarBeingHovered && this.canvas.style.cursor === 'pointer'){
-            this.setCursor('grab');
-        }
-
-        // Update cursor:
-        if (input.mousedown){
-            this.setCursor('grabbing');
-        }
-        else if (input.mouseup){
-            this.setCursor('grab');
         }
     }
 }

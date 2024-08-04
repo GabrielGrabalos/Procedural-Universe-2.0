@@ -1,9 +1,9 @@
 class Star extends GameObject {
     static starColors = ["#ffffff", "#ffcc99", "#ffcc66", "#ffcc33", "#ffcc00", "#ff9933", "#ff9900", "#ff6600", "#ff6633", "#ff3300", "#ff1133"];
 
-    constructor(seed, x, y) {
+    constructor(seed, x, y, generateSystem = false) {
         super();
-        
+
         this.rng = new RandomNumberGenerator(seed);
         this.seed = seed;
         this.x = x;
@@ -14,41 +14,47 @@ class Star extends GameObject {
 
         this.shiftX = this.rng.nextFloat(-40, 40); // TODO: Change this to multiply the interval
         this.shiftY = this.rng.nextFloat(-40, 40); // TODO: Change this to multiply the interval
-        
+
         this.isBeingHovered = false;
-        
+
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
+
+        if (!generateSystem) return;
     }
 
-    calculateDistance(other){
+    calculateDistance(other) {
         return Math.sqrt((this.x + this.shiftX - other.x) ** 2 + (this.y + this.shiftY - other.y) ** 2);
     }
 
-    update(input){
+    update(input) {
         // if mouse hovering:
         this.isBeingHovered = this.calculateDistance(input.mouse) <= this.radius;
 
-        if (input.click && this.isBeingHovered){
-            // Create and set new Solar System scene:
-            const solarSystemScene = new SolarSystemScene({
-                width: this.scene.width,
-                height: this.scene.height,
-                star: this,
-                previousScene: this.scene,
-            });
+        if (this.isBeingHovered) {
+            this.scene.requestCursor("pointer");
 
-            this.scene.game.setScene(solarSystemScene);
+            if (input.click) {
+                // Create and set new Solar System scene:
+                const solarSystemScene = new SolarSystemScene({
+                    width: this.scene.width,
+                    height: this.scene.height,
+                    star: this,
+                    previousScene: this.scene,
+                });
+
+                this.scene.game.setScene(solarSystemScene);
+            }
         }
     }
 
     draw(ctx) {
         ctx.fillStyle = this.color;
-        
+
         ctx.beginPath();
         ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
         ctx.fill();
 
-        if (this.isBeingHovered && !this.scene.camera.drag){
+        if (this.isBeingHovered && !this.scene.camera.drag) {
             // Circle around the star
             ctx.strokeStyle = "#ffffff";
             ctx.lineWidth = 2;

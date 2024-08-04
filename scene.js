@@ -22,6 +22,8 @@ class Scene {
         this.backgroundColor = '#000000';
 
         this.game = null;
+
+        this.cursorRequest = "default";
     }
 
     setWidth(width) {
@@ -43,6 +45,11 @@ class Scene {
     setCursor(cursor) {
         this.canvas.style.cursor = cursor;
     }
+
+    requestCursor(cursor) {
+        this.cursorRequest = cursor;
+    }
+
 
     // Method to add an object to the scene
     addObject(object) {
@@ -66,11 +73,17 @@ class Scene {
 
     // Method to update the state of the scene
     updateScene(input) {
+        this.cursorRequest = "default";
+
         if (this.camera) {
             this.camera.update(input);
             
             const mouse = this.camera.ScreenToWorld(input.mouse);
             input.mouse = mouse;
+
+            if(input.mouseleave){                
+                input.mouse = { x: -Infinity, y: -Infinity };
+            }
 
             if (input.click){
                 input.click = this.camera.click;
@@ -84,6 +97,8 @@ class Scene {
                 object.update(input);
             }
         });
+
+        this.setCursor(this.cursorRequest);
     }
 
     update(input) {
