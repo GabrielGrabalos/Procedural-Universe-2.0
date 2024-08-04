@@ -20,6 +20,8 @@ class Game {
         // Bind the main loop to the instance
         this.loop = this.loop.bind(this);
 
+        this.scenes = [];
+
         // Start the game loop
         requestAnimationFrame(this.loop);
     }
@@ -34,6 +36,29 @@ class Game {
 
     // Method to switch scenes
     setScene(scene) {
+        if (!scene instanceof Scene) {
+            scene = this.scenes[scene];
+
+            if (!scene) {
+                console.error('Scene not found');
+                return;
+            }
+        }
+
+        // If the scene isn't on the list, add it
+        if (!this.scenes.includes(scene)) {
+            // Give it an ID:
+            scene.id = this.scenes.length;
+            this.scenes.push(scene);
+        }
+
+        if (this.currentScene) {
+            // Add to browser history so when the user clicks the "back" button, they go back to the previous scene
+            window.history.pushState({
+                previousScene: this.currentScene.id
+            }, "previousScene");
+        }
+
         this.currentScene = scene;
         this.currentScene.game = this;
     }
@@ -51,7 +76,7 @@ class Game {
     // Main game loop
     loop() {
         if (this.currentScene) {
-            this.currentScene.updateScene({ ...this.input});
+            this.currentScene.updateScene({ ...this.input });
             this.currentScene.render();
             this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.context.drawImage(this.currentScene.canvas, 0, 0);
@@ -63,7 +88,7 @@ class Game {
         this.input = {
             mouse: this.input.mouse
         };
-        
+
         requestAnimationFrame(this.loop);
     }
 
@@ -88,6 +113,13 @@ class Game {
 
         // Resize event
         window.addEventListener('resize', this.handleInput.bind(this));
+
+        window.addEventListener('popstate', (event) => {
+            console.log(event.state, event.state.previousScene);
+            if (event.state && event.state.previousScene) {
+                this.setScene(event.state.previousScene);
+            }
+        });
 
         // Start the game loop
         requestAnimationFrame(this.loop);

@@ -12,9 +12,9 @@ class Star extends GameObject {
         this.color = Star.starColors[this.rng.nextInt(0, Star.starColors.length)];
         this.radius = this.rng.nextFloat(5, 20);
 
-        this.shiftX = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
-        this.shiftY = this.rng.nextFloat(-30, 30); // TODO: Change this to multiply the interval
-
+        this.shiftX = this.rng.nextFloat(-40, 40); // TODO: Change this to multiply the interval
+        this.shiftY = this.rng.nextFloat(-40, 40); // TODO: Change this to multiply the interval
+        
         this.isBeingHovered = false;
         
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
