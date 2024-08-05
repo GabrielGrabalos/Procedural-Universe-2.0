@@ -10,8 +10,8 @@ class UniverseScene extends Scene {
     addStars() {
         const screenToWorld0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
 
-        const initialX = Math.floor(screenToWorld0.x / this.interval + 1) * this.interval;
-        const initialY = Math.floor(screenToWorld0.y / this.interval + 1) * this.interval;
+        const initialX = Math.floor(screenToWorld0.x / this.interval - 1) * this.interval;
+        const initialY = Math.floor(screenToWorld0.y / this.interval - 1) * this.interval;
 
         if (this.previousInitialPosition.x === initialX && this.previousInitialPosition.y === initialY) {
             return;
@@ -23,8 +23,8 @@ class UniverseScene extends Scene {
 
         const screenToWorldWH = this.camera.ScreenToWorld({ x: this.width, y: this.height });
 
-        const finalX = Math.ceil(screenToWorldWH.x / this.interval - 1) * this.interval;
-        const finalY = Math.ceil(screenToWorldWH.y / this.interval - 1) * this.interval;
+        const finalX = Math.ceil(screenToWorldWH.x / this.interval + 1) * this.interval;
+        const finalY = Math.ceil(screenToWorldWH.y / this.interval + 1) * this.interval;
 
         // Rectangle object for coordinates for debugging:
         this.addObject(new Rectangle(initialX, initialY, 30, 30, "#ffffff"));
