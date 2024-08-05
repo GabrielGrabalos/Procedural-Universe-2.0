@@ -26,15 +26,10 @@ class UniverseScene extends Scene {
         const finalX = Math.ceil(screenToWorldWH.x / this.interval + 1) * this.interval;
         const finalY = Math.ceil(screenToWorldWH.y / this.interval + 1) * this.interval;
 
-        // Rectangle object for coordinates for debugging:
-        this.addObject(new Rectangle(initialX, initialY, 30, 30, "#ffffff"));
-        this.addObject(new Rectangle(finalX - 30, finalY - 30, 30, 30, "#ffffff"));
-
         for (let x = initialX; x <= finalX; x += this.interval) {
             for (let y = initialY; y <= finalY; y += this.interval) {
                 const seed = (y << 16 | (x & 0xFFFF)) & 0x7FFFFFF;
 
-                
                 if (RandomNumberGenerator.randInt(seed, 0, 20) === 1) {
                     const star = new Star(seed, x, y, this.interval);
 

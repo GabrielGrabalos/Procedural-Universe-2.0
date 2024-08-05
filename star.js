@@ -1,13 +1,11 @@
-class Star extends GameObject {
+class Star extends CelestialBody {
     static starColors = ["#ffffff", "#ffcc99", "#ffcc66", "#ffcc33", "#ffcc00", "#ff9933", "#ff9900", "#ff6600", "#ff6633", "#ff3300", "#ff1133"];
 
     constructor(seed, x, y, generateSystem = false) {
-        super();
+        super(x, y);
 
         this.rng = new RandomNumberGenerator(seed);
         this.seed = seed;
-        this.x = x;
-        this.y = y;
 
         this.color = Star.starColors[this.rng.nextInt(0, Star.starColors.length)];
         this.radius = this.rng.nextFloat(5, 20);
@@ -20,6 +18,52 @@ class Star extends GameObject {
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
 
         if (!generateSystem) return;
+
+        // Generate planets:
+        const planets = this.rng.nextInt(0, 10);
+
+        for (let i = 0; i < planets; i++) {
+            const planet = new Planet(this.rng.nextInt(), this.x, this.y, this.rng.nextFloat(5, 10), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
+
+            this.addChild(planet);
+
+            // Generate moons:
+            const moons = this.rng.nextInt(0, 5);
+
+            for (let j = 0; j < moons; j++) {
+                const moon = new Moon(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
+
+                planet.addChild(moon);
+            }
+        }
+
+        // // Generate asteroid belts:
+        // const asteroidBelts = this.rng.nextInt(0, 2);
+
+        // for (let j = 0; j < asteroidBelts; j++) {
+        //     const asteroidBelt = new AsteroidBelt(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
+
+        //     planet.addChild(asteroidBelt);
+        // }
+
+        // // Generate dwarf planets:
+        // const dwarfPlanets = this.rng.nextInt(0, 2);
+
+        // for (let j = 0; j < dwarfPlanets; j++) {
+        //     const dwarfPlanet = new DwarfPlanet(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
+
+        //     planet.addChild(dwarfPlanet);
+        // }
+
+        // // Generate comets:
+        // const comets = this.rng.nextInt(0, 2);
+
+        // for (let j = 0; j < comets; j++) {
+        //     const comet = new Comet(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
+
+        //     planet.addChild(comet);
+        // }
+
     }
 
     calculateDistance(other) {

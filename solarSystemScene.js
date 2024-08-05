@@ -3,7 +3,7 @@ class SolarSystemScene extends Scene {
         super({ width, height, objects });
 
         // Make copy of the star:
-        this.star = new Star(star.seed, 0, 0); // TODO: clone function in GameObject class
+        this.star = new Star(star.seed, 0, 0, true); // TODO: clone function in GameObject class
 
         // Star conigurations (remake all this because it is currently very bad):
         this.star.x = 0;

@@ -1,4 +1,10 @@
 class GameObject {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.scene = null;
+    }
+    
     setScene(scene) {
         this.scene = scene;
     }

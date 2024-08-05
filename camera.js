@@ -184,7 +184,7 @@ class Camera {
         const mouseBeforeZoom = this.ScreenToWorld({ x: mouseX, y: mouseY });
 
         // Zoom in or out:
-        this.Scale += delta * (-0.001) * (this.Scale / 2) * 5;
+        this.Scale += delta * (-0.001) * (this.Scale / 2) * 2;
 
         // Restrict zoom:
         this.Scale = Math.min(Math.max(this.MinZoom, this.Scale), this.MaxZoom);
