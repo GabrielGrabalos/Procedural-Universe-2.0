@@ -1,52 +1,31 @@
-class Planet extends GameObject {
-    constructor(seed, x, y, star) {
-        super();
+class Planet extends CelestialBody {
+    constructor(seed, x, y, parent, generateSystem = false) {
+        super(x, y);
 
-        this.rng = new RandomNumberGenerator(seed);
         this.seed = seed;
-        this.x = x;
-        this.y = y;
+        this.parent = parent;
+        this.rng = new RandomNumberGenerator(seed);
 
         this.radius = this.rng.nextFloat(5, 20);
 
-        this.isBeingHovered = false;
-
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
 
-        this.star = star;
-    }
+        if (!generateSystem) return;
 
-    calculateDistance(other) {
-        return Math.sqrt((this.x + this.shiftX - other.x) ** 2 + (this.y + this.shiftY - other.y) ** 2);
-    }
+        // Generate moons:
+        const moons = this.rng.nextInt(0, 5);
 
-    update(input) {
-        // if mouse hovering:
-        this.isBeingHovered = this.calculateDistance(input.mouse) <= this.radius;
+        for (let i = 0; i < moons; i++) {
+            const seed = this.rng.nextInt();
+            const distanceToParent = this.rng.nextFloat(5, 20) + 20 * i;
+            const angle = this.rng.nextFloat(0, Math.PI * 2);
 
-        if (this.isBeingHovered) {
-            this.scene.requestCursor("pointer");
+            const x = this.position.x + distanceToParent * Math.cos(angle);
+            const y = this.position.y + distanceToParent * Math.sin(angle);
 
-            if (input.click) {
-                // to implement
-            }
-        }
-    }
+            const moon = new Moon(seed, x, y, this, true);
 
-    draw(ctx) {
-        ctx.fillStyle = this.color;
-
-        ctx.beginPath();
-        ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (this.isBeingHovered && !this.scene.camera.drag) {
-            // Circle around the star
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(this.x + this.shiftX, this.y + this.shiftY, this.radius + 5, 0, Math.PI * 2);
-            ctx.stroke();
+            this.addChild(moon);
         }
     }
 }

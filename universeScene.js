@@ -31,7 +31,7 @@ class UniverseScene extends Scene {
                 const seed = (y << 16 | (x & 0xFFFF)) & 0x7FFFFFF;
 
                 if (RandomNumberGenerator.randInt(seed, 0, 20) === 1) {
-                    const star = new Star(seed, x, y, this.interval);
+                    const star = new Star(seed, x, y);
 
                     this.addObject(star);
                 }

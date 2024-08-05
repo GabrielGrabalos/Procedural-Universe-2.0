@@ -1,7 +1,6 @@
 class GameObject {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this.position = new Vector2(x, y);
         this.scene = null;
     }
     
