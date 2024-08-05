@@ -105,6 +105,11 @@ class Scene {
         });
 
         this.setCursor(this.cursorRequest);
+
+
+        if (input.keydown && input.keydown.key == "Escape") {
+            this.returnToPreviousScene();
+        }
     }
 
     update(input) {

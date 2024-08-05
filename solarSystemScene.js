@@ -24,8 +24,6 @@ class SolarSystemScene extends Scene {
     }
 
     update(input){        
-        if (input.keydown && input.keydown.key == "Escape") {
-            this.returnToPreviousScene();
-        }
+        this.requestCursor(this.camera.Dragging? "grabbing" : "grab");
     }
 }
