@@ -2,23 +2,40 @@ class UniverseScene extends Scene {
     constructor(options) {
         super(options);
 
-        this.previousInitialPosition = { x: 0, y: 0 };
+        this.interval = 50;
+
+        this.previousInitialPosition = { x: -1, y: 0 };
     }
 
-    addStars(initalX, initalY, interval = 50) {
+    addStars() {
+        const screenToWorld0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
+
+        const initialX = Math.floor(screenToWorld0.x / this.interval) * this.interval;
+        const initialY = Math.floor(screenToWorld0.y / this.interval) * this.interval;
+
+        if (this.previousInitialPosition.x === initialX && this.previousInitialPosition.y === initialY) {
+            return;
+        }
+
+        this.previousInitialPosition = { x: initialX, y: initialY };
+
         this.objects = [];
 
-        const stw1 = this.camera.ScreenToWorld({ x: this.camera.screenDimensions.width, y: this.camera.screenDimensions.height });
+        const screenToWorldWH = this.camera.ScreenToWorld({ x: this.width, y: this.height });
 
-        const finalX = Math.floor(stw1.x / interval + 2) * interval;
-        const finalY = Math.floor(stw1.y / interval + 2) * interval;
+        const finalX = Math.ceil(screenToWorldWH.x / this.interval) * this.interval;
+        const finalY = Math.ceil(screenToWorldWH.y / this.interval) * this.interval;
 
-        for (let y = initalY; y < finalY; y += interval) {
-            for (let x = initalX; x < finalX; x += interval) {
-                const seed = (y) << 16 | (x & 0xFFFF);
+        console.log(`Initial: (${initialX}, ${initialY})`, `Final: (${finalX}, ${finalY})`);
 
-                if (RandomNumberGenerator.randInt(seed, 0, 20) == 1) {
-                    const star = new Star(seed, x, y);
+        for (let x = initialX; x <= finalX; x += this.interval) {
+            for (let y = initialY; y <= finalY; y += this.interval) {
+                const seed = (y << 16 | (x & 0xFFFF)) & 0x7FFFFFF;
+
+                
+                if (RandomNumberGenerator.randInt(seed, 0, 20) === 1) {
+                    const star = new Star(seed, x, y, this.interval);
+
                     this.addObject(star);
                 }
             }
@@ -29,22 +46,6 @@ class UniverseScene extends Scene {
         // Update cursor:
         this.requestCursor(this.camera.Dragging ? "grabbing" : "grab");
 
-        const interval = 50;
-
-        const stw0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
-
-        const initalX = Math.floor(stw0.x / interval - 2) * interval;
-        const initalY = Math.floor(stw0.y / interval - 2) * interval;
-
-        if (input.resize || this.objects.length == 0) {
-            this.addStars(initalX, initalY, interval);
-            return;
-        }
-
-        if (this.previousInitialPosition.x != initalX || this.previousInitialPosition.y != initalY) {
-            this.previousInitialPosition = { x: initalX, y: initalY };
-
-            this.addStars(initalX, initalY, interval);
-        }
+        this.addStars();
     }
 }

@@ -34,8 +34,10 @@ class Game {
 
     // Method to switch scenes
     setScene(scene) {
-        scene.previousScene = this.currentScene;
-        
+        if (!scene.previousScene && this.currentScene) {
+            scene.previousScene = this.currentScene;
+        }
+
         this.currentScene = scene;
         this.currentScene.game = this;
     }

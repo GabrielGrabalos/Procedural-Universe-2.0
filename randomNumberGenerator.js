@@ -5,34 +5,34 @@ class RandomNumberGenerator {
     }
 
     nextInt(min, max) {
-        return min + (this.next() % (max - min + 1))
+        return min + (this.next() % (max - min + 1));
     }
 
     nextFloat(min, max) {
-        return min + this.next() * (max - min) / 0xFFFFFFFF
+        return min + this.next() * (max - min) / 0xFFFFFFFF;
     }
 
     next() {
-        this.state ^= (this.state << 13)
-        this.state ^= (this.state >> 17)
-        this.state ^= (this.state << 5)
-        return Math.abs(this.state & 0xFFFFFFFF)
+        this.state ^= (this.state << 13);
+        this.state ^= (this.state >> 17);
+        this.state ^= (this.state << 5);
+        return Math.abs(this.state & 0xFFFFFFFF);
     }
 
     // Static methods:
     static random(seed) {
-        seed ^= (seed << 13)
-        seed ^= (seed >> 17)
-        seed ^= (seed << 5)
-        return seed / 0xFFFFFFF
+        seed ^= (seed << 13);
+        seed ^= (seed >> 17);
+        seed ^= (seed << 5);
+        return seed / 0xFFFFFFF;
     }
 
     static randInt(seed, min, max) {
-        return Math.floor(min + (RandomNumberGenerator.random(seed) * 0xFFFFFFFF) % (max - min + 1))
+        return Math.floor(min + (RandomNumberGenerator.random(seed) * 0xFFFFFFFF) % (max - min + 1));
     }
 
     static randFloat(seed, min, max) {
-        return min + RandomNumberGenerator.random(seed) * (max - min)
+        return min + RandomNumberGenerator.random(seed) * (max - min);
     }
 
 
