@@ -26,7 +26,7 @@ class CelestialBody extends GameObject {
     }
 
     calculateDistance(other) {
-        return Math.sqrt((this.position.x - other.position.x) ** 2 + (this.position.y - other.position.y) ** 2);
+        return Math.sqrt((this.position.x - other.x) ** 2 + (this.position.y - other.y) ** 2);
     }
 
     click(){

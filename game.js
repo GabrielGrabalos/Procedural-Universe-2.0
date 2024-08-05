@@ -40,6 +40,8 @@ class Game {
 
         this.currentScene = scene;
         this.currentScene.game = this;
+
+        this.currentScene.start();
     }
 
     // Method to handle user input

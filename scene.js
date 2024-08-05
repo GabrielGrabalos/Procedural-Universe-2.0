@@ -50,7 +50,6 @@ class Scene {
         this.cursorRequest = cursor;
     }
 
-
     // Method to add an object to the scene
     addObject(object) {
         if (typeof object.setScene === 'function') {
@@ -75,6 +74,10 @@ class Scene {
     clear() {
         this.context.fillStyle = this.backgroundColor;
         this.context.fillRect(0, 0, this.width, this.height);
+    }
+
+    start() {
+        // Should be implemented by the subclass
     }
 
     // Method to update the state of the scene

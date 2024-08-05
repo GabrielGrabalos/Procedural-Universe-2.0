@@ -19,22 +19,6 @@ class Star extends CelestialBody {
 
         if (!generateSystem) return;
 
-        // Generate planets:
-        const planets = this.rng.nextInt(0, 10);
-
-        for (let i = 0; i < planets; i++) {
-            const seed = this.rng.nextInt();
-            const distanceToParent = this.rng.nextFloat(50, 100) + 100 * i;
-            const angle = this.rng.nextFloat(0, Math.PI * 2);
-
-            const x = this.position.x + distanceToParent * Math.cos(angle);
-            const y = this.position.y + distanceToParent * Math.sin(angle);
-
-            const planet = new Planet(seed, x, y, this, true);
-
-            this.addChild(planet);
-        }
-
         // // Generate asteroid belts:
         // const asteroidBelts = this.rng.nextInt(0, 2);
 
@@ -62,6 +46,25 @@ class Star extends CelestialBody {
         //     planet.addChild(comet);
         // }
 
+    }
+
+    generatePlanets() {
+        const planets = this.rng.nextInt(0, 10);
+
+        for (let i = 0; i < planets; i++) {
+            const seed = this.rng.nextInt();
+            const distanceToParent = this.rng.nextFloat(50, 100) + 100 * i;
+            const angle = this.rng.nextFloat(0, Math.PI * 2);
+
+            const x = this.position.x + distanceToParent * Math.cos(angle);
+            const y = this.position.y + distanceToParent * Math.sin(angle);
+
+            const planet = new Planet(seed, x, y, this, true);
+
+            this.addChild(planet);
+
+            planet.generateMoons();
+        }
     }
 
     calculateDistance(other) {
