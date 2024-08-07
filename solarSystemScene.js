@@ -14,18 +14,9 @@ class SolarSystemScene extends Scene {
     }
 
     start(){
-        // Make copy of the star:
-        this.star = new Star(this.star.seed, 0, 0,); // TODO: clone function in GameObject class
-
-        // Star conigurations (remake all this because it is currently very bad):
-        this.star.x = 0;
-        this.star.y = 0;
-        this.star.shiftX = 0;
-        this.star.shiftY = 0;
-
-        this.addObject(this.star);
-
         this.star.generatePlanets();
+
+        this.addObject(this.star.toSystem());
     }
 
     update(input){        

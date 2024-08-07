@@ -24,9 +24,9 @@ class Star extends CelestialBody {
             const seed = this.rng.next();
 
             const radiusRange = [5, 20];
-            const distanceToParentRange = [50 + 100 * i, 100 + 100 * i];
+            const distanceToParentRange = [300 + 250 * i, 300 + 250 * i];
             const massRange = [1, 10];
-            const speedRange = [0.001, 0.01];
+            const speedRange = [0.01, 0.1];
 
             const planet = new Planet(seed, this);
 
@@ -52,6 +52,20 @@ class Star extends CelestialBody {
         });
 
         this.scene.game.setScene(solarSystemScene);
+    }
+
+    copy() {
+        return new Star(this.seed, this.position.x, this.position.y);
+    }
+
+    toSystem() {
+        const star = this.copy();
+
+        star.position.x = this.position.x;
+        star.position.y = this.position.y;
+        star.radius *= 10;
+
+        return star;
     }
 
     draw(ctx) {

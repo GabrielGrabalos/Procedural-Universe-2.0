@@ -10,9 +10,9 @@ class Planet extends CelestialBody {
             const seed = this.rng.next();
 
             const radiusRange = [2, 10];
-            const distanceToParentRange = [10 + 10 * i, 20 + 10 * i];
+            const distanceToParentRange = [30 + 30 * i, 50 + 30 * i];
             const massRange = [0.1, 1];
-            const speedRange = [0.001, 0.01];
+            const speedRange = [0.01, 0.1];
 
             const moon = new Moon(seed, this);
 
