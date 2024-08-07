@@ -8,9 +8,6 @@ const universe = new UniverseScene({
 window.onresize = () => {
     game.setWidth(window.innerWidth);
     game.setHeight(window.innerHeight);
-
-    universe.setWidth(window.innerWidth);
-    universe.setHeight(window.innerHeight);
 };
 
 const camera = new Camera({

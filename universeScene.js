@@ -4,27 +4,14 @@ class UniverseScene extends Scene {
 
         this.interval = 50;
 
-        this.previousInitialPosition = { x: -1, y: 0 };
+        this.previousPositions = [
+            { x: 0, y: 0 }, // Top left
+            { x: 0, y: 0 }  // Bottom right
+        ]
     }
 
-    addStars() {
-        const screenToWorld0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
-
-        const initialX = Math.floor(screenToWorld0.x / this.interval - 1) * this.interval;
-        const initialY = Math.floor(screenToWorld0.y / this.interval - 1) * this.interval;
-
-        if (this.previousInitialPosition.x === initialX && this.previousInitialPosition.y === initialY) {
-            return;
-        }
-
-        this.previousInitialPosition = { x: initialX, y: initialY };
-
+    addStars(initialX, initialY, finalX, finalY) {
         this.objects = [];
-
-        const screenToWorldWH = this.camera.ScreenToWorld({ x: this.width, y: this.height });
-
-        const finalX = Math.ceil(screenToWorldWH.x / this.interval + 1) * this.interval;
-        const finalY = Math.ceil(screenToWorldWH.y / this.interval + 1) * this.interval;
 
         for (let x = initialX; x <= finalX; x += this.interval) {
             for (let y = initialY; y <= finalY; y += this.interval) {
@@ -43,6 +30,26 @@ class UniverseScene extends Scene {
         // Update cursor:
         this.requestCursor(this.camera.Dragging ? "grabbing" : "grab");
 
-        this.addStars();
+        // Update stars:
+        const screenToWorld0 = this.camera.ScreenToWorld({ x: 0, y: 0 });
+
+        const initialX = Math.floor(screenToWorld0.x / this.interval - 1) * this.interval;
+        const initialY = Math.floor(screenToWorld0.y / this.interval - 1) * this.interval;
+
+        const screenToWorldWH = this.camera.ScreenToWorld({ x: this.width, y: this.height });
+
+        const finalX = Math.ceil(screenToWorldWH.x / this.interval + 1) * this.interval;
+        const finalY = Math.ceil(screenToWorldWH.y / this.interval + 1) * this.interval;
+
+        if (initialX !== this.previousPositions[0].x || initialY !== this.previousPositions[0].y ||
+            finalX !== this.previousPositions[1].x || finalY !== this.previousPositions[1].y) {
+
+            this.previousPositions = [
+                { x: initialX, y: initialY },
+                { x: finalX, y: finalY }
+            ];
+
+            this.addStars(initialX, initialY, finalX, finalY);
+        }
     }
 }

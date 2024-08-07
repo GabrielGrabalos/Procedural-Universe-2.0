@@ -1,5 +1,5 @@
 class Scene {
-    constructor({ width = 800, height = 600, objects }) {
+    constructor({ width = 800, height = 600, objects, autoResize = true }) {
         // Create an offscreen canvas
         this.canvas = document.createElement('canvas');
         this.canvas.width = width;
@@ -9,6 +9,14 @@ class Scene {
         // Store the dimensions
         this.width = this.canvas.width;
         this.height = this.canvas.height;
+
+        // If autoResize is true, resize the canvas when the window is resized
+        if (autoResize) {
+            window.addEventListener('resize', () => {
+                this.setWidth(window.innerWidth);
+                this.setHeight(window.innerHeight);
+            });
+        }
 
         // Array to keep track of objects in the scene
         this.objects = [];
