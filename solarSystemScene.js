@@ -7,7 +7,7 @@ class SolarSystemScene extends Scene {
         // Camera:
         this.setCamera(new Camera({
             screenDimensions: { width, height },
-            scale: 0.5,
+            scale: 4,
         }));
 
         this.camera.CenterOffset();
@@ -22,7 +22,6 @@ class SolarSystemScene extends Scene {
         this.star.y = 0;
         this.star.shiftX = 0;
         this.star.shiftY = 0;
-        this.star.radius *= 40;
 
         this.addObject(this.star);
 

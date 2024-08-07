@@ -21,7 +21,7 @@ class Star extends CelestialBody {
         const planets = this.rng.nextInt(0, 10);
 
         for (let i = 0; i < planets; i++) {
-            const seed = this.rng.nextInt();
+            const seed = this.rng.next();
 
             const radiusRange = [5, 20];
             const distanceToParentRange = [50 + 100 * i, 100 + 100 * i];

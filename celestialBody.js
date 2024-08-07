@@ -7,7 +7,7 @@ class CelestialBody extends GameObject {
 
         this.isBeingHovered = false;
 
-        this.parent = null; // Orbital parent.
+        this.parent = parent; // Orbital parent.
         this.distanceToParent = 0; // Distance to parent.
     }
 
@@ -63,8 +63,8 @@ class CelestialBody extends GameObject {
 
         if (this.parent) {
             // Update the orbit according to the speed.
-            this.position.x = this.parent.position.x + this.distanceToParent * Math.cos(this.angle);
-            this.position.y = this.parent.position.y + this.distanceToParent * Math.sin(this.angle);
+            this.position.x = this.parent.position.x + this.distanceToParent * Math.cos(this.angle / this.distanceToParent);
+            this.position.y = this.parent.position.y + this.distanceToParent * Math.sin(this.angle / this.distanceToParent);
 
             this.angle += this.speed;
         }
@@ -72,8 +72,10 @@ class CelestialBody extends GameObject {
 
     drawOrbit(ctx) {
         ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(this.parent.position.x, this.parent.position.y, this.distanceToParent, 0, Math.PI * 2);
+        ctx.stroke();
     }
 
     draw(ctx) {

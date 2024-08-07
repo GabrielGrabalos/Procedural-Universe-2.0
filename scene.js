@@ -1,10 +1,11 @@
 class Scene {
-    constructor({ width = 800, height = 600, objects, autoResize = true }) {
+    constructor({ width = 800, height = 600, objects, autoResize = true, alpha = false, antialias = false, imageSmoothingEnabled = false }) {
         // Create an offscreen canvas
         this.canvas = document.createElement('canvas');
         this.canvas.width = width;
         this.canvas.height = height;
-        this.context = this.canvas.getContext('2d');
+        this.context = this.canvas.getContext('2d', { alpha: alpha, antialias: antialias });
+        this.context.imageSmoothingEnabled = imageSmoothingEnabled;
 
         // Store the dimensions
         this.width = this.canvas.width;
@@ -24,6 +25,8 @@ class Scene {
         if (objects) {
             objects.forEach(object => this.addObject(object));
         }
+
+        this.allowPrevious = true;
 
         this.camera = null;
 

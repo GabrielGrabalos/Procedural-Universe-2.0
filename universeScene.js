@@ -8,6 +8,8 @@ class UniverseScene extends Scene {
             { x: 0, y: 0 }, // Top left
             { x: 0, y: 0 }  // Bottom right
         ]
+
+        this.allowPrevious = false;
     }
 
     addStars(initialX, initialY, finalX, finalY) {

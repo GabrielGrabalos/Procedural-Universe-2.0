@@ -1,13 +1,13 @@
 class Planet extends CelestialBody {
     constructor(seed, parent) {
-        super();
+        super(seed, parent);
     }
 
     generateMoons() {
         const moons = this.rng.nextInt(0, 5);
 
         for (let i = 0; i < moons; i++) {
-            const seed = this.rng.nextInt();
+            const seed = this.rng.next();
 
             const radiusRange = [2, 10];
             const distanceToParentRange = [10 + 10 * i, 20 + 10 * i];

@@ -4,7 +4,8 @@ class Game {
         this.canvas = document.createElement('canvas');
         this.canvas.width = width;
         this.canvas.height = height;
-        this.context = this.canvas.getContext('2d');
+        this.context = this.canvas.getContext('2d', { alpha: false, antialias: false });
+        this.context.imageSmoothingEnabled = false;
 
         // Add the canvas to the document body
         document.body.appendChild(this.canvas);
@@ -34,7 +35,7 @@ class Game {
 
     // Method to switch scenes
     setScene(scene) {
-        if (!scene.previousScene && this.currentScene) {
+        if (!scene.previousScene && scene.allowPrevious && this.currentScene) {
             scene.previousScene = this.currentScene;
         }
 
