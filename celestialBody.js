@@ -15,7 +15,7 @@ class CelestialBody extends GameObject {
         this.radius = this.rng.nextFloat(radiusRange[0], radiusRange[1]);
         this.distanceToParent = this.rng.nextFloat(distanceRange[0], distanceRange[1]);
         this.mass = this.rng.nextFloat(massRange[0], massRange[1]);
-        this.speed = this.rng.nextFloat(speedRange[0], speedRange[1]);
+        this.speed = -this.rng.nextFloat(speedRange[0], speedRange[1]);
 
         this.color = `rgb(${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)})`;
 

@@ -24,9 +24,9 @@ class Star extends CelestialBody {
             const seed = this.rng.next();
 
             const radiusRange = [5, 20];
-            const distanceToParentRange = [300 + 250 * i, 300 + 250 * i];
+            const distanceToParentRange = [300 + 280 * i, 300 + 280 * i];
             const massRange = [1, 10];
-            const speedRange = [0.01, 0.1];
+            const speedRange = [0.1, 1];
 
             const planet = new Planet(seed, this);
 
@@ -63,7 +63,13 @@ class Star extends CelestialBody {
 
         star.position.x = this.position.x;
         star.position.y = this.position.y;
+        star.shiftX = 0;
+        star.shiftY = 0;
         star.radius *= 10;
+
+        star.click = () => {
+            // Nothing for now.
+        };
 
         return star;
     }

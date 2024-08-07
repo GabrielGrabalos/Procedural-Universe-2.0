@@ -14,12 +14,14 @@ class SolarSystemScene extends Scene {
     }
 
     start(){
-        this.star.generatePlanets();
+        this.star = this.star.toSystem();
 
-        this.addObject(this.star.toSystem());
+        this.addObject(this.star);
+
+        this.star.generatePlanets();
     }
 
-    update(input){        
+    update(input){
         this.requestCursor(this.camera.Dragging? "grabbing" : "grab");
     }
 }
