@@ -1,14 +1,6 @@
 class Planet extends CelestialBody {
-    constructor(seed, x, y, parent) {
-        super(x, y);
-
-        this.seed = seed;
-        this.parent = parent;
-        this.rng = new RandomNumberGenerator(seed);
-
-        this.radius = this.rng.nextFloat(5, 20);
-
-        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
+    constructor(seed, parent) {
+        super();
     }
 
     generateMoons() {
@@ -16,13 +8,15 @@ class Planet extends CelestialBody {
 
         for (let i = 0; i < moons; i++) {
             const seed = this.rng.nextInt();
-            const distanceToParent = this.rng.nextFloat(5, 20) + 20 * i;
-            const angle = this.rng.nextFloat(0, Math.PI * 2);
 
-            const x = this.position.x + distanceToParent * Math.cos(angle);
-            const y = this.position.y + distanceToParent * Math.sin(angle);
+            const radiusRange = [2, 10];
+            const distanceToParentRange = [10 + 10 * i, 20 + 10 * i];
+            const massRange = [0.1, 1];
+            const speedRange = [0.001, 0.01];
 
-            const moon = new Moon(seed, x, y, this, true);
+            const moon = new Moon(seed, this);
+
+            moon.randomize(radiusRange, distanceToParentRange, massRange, speedRange);
 
             this.addChild(moon);
         }

@@ -1,15 +1,32 @@
 class CelestialBody extends GameObject {
-    constructor(x, y, radius, color, mass, speed) {
-        super(x, y);
-        this.radius = radius;
-        this.color = color;
-        this.mass = mass;
-        this.speed = speed;
+    constructor(seed, parent) {
+        super();
+
+        this.rng = new RandomNumberGenerator(seed);
+        this.seed = seed;
 
         this.isBeingHovered = false;
 
         this.parent = null; // Orbital parent.
         this.distanceToParent = 0; // Distance to parent.
+    }
+
+    randomize(radiusRange, distanceRange = [0, 0], massRange, speedRange) {
+        this.radius = this.rng.nextFloat(radiusRange[0], radiusRange[1]);
+        this.distanceToParent = this.rng.nextFloat(distanceRange[0], distanceRange[1]);
+        this.mass = this.rng.nextFloat(massRange[0], massRange[1]);
+        this.speed = this.rng.nextFloat(speedRange[0], speedRange[1]);
+
+        this.color = `rgb(${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)})`;
+
+        this.angle = this.rng.nextFloat(0, Math.PI * 2);
+
+        this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
+
+        if (this.parent) {
+            this.position.x = this.parent.position.x + this.distanceToParent * Math.cos(this.angle);
+            this.position.y = this.parent.position.y + this.distanceToParent * Math.sin(this.angle);
+        }
     }
 
     addChild(child) {
@@ -29,7 +46,7 @@ class CelestialBody extends GameObject {
         return Math.sqrt((this.position.x - other.x) ** 2 + (this.position.y - other.y) ** 2);
     }
 
-    click(){
+    click() {
         // Override this method.
     }
 

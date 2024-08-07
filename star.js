@@ -1,11 +1,10 @@
 class Star extends CelestialBody {
     static starColors = ["#ffffff", "#ffcc99", "#ffcc66", "#ffcc33", "#ffcc00", "#ff9933", "#ff9900", "#ff6600", "#ff6633", "#ff3300", "#ff1133"];
 
-    constructor(seed, x, y, generateSystem = false) {
-        super(x, y);
+    constructor(seed, x, y) {
+        super(seed);
 
-        this.rng = new RandomNumberGenerator(seed);
-        this.seed = seed;
+        this.position = new Vector2(x, y);
 
         this.color = Star.starColors[this.rng.nextInt(0, Star.starColors.length)];
         this.radius = this.rng.nextFloat(5, 20);
@@ -16,36 +15,6 @@ class Star extends CelestialBody {
         this.isBeingHovered = false;
 
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
-
-        if (!generateSystem) return;
-
-        // // Generate asteroid belts:
-        // const asteroidBelts = this.rng.nextInt(0, 2);
-
-        // for (let j = 0; j < asteroidBelts; j++) {
-        //     const asteroidBelt = new AsteroidBelt(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
-
-        //     planet.addChild(asteroidBelt);
-        // }
-
-        // // Generate dwarf planets:
-        // const dwarfPlanets = this.rng.nextInt(0, 2);
-
-        // for (let j = 0; j < dwarfPlanets; j++) {
-        //     const dwarfPlanet = new DwarfPlanet(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
-
-        //     planet.addChild(dwarfPlanet);
-        // }
-
-        // // Generate comets:
-        // const comets = this.rng.nextInt(0, 2);
-
-        // for (let j = 0; j < comets; j++) {
-        //     const comet = new Comet(this.rng.nextInt(), planet.x, planet.y, this.rng.nextFloat(1, 3), this.rng.nextFloat(0.1, 1), this.rng.nextFloat(0.1, 1));
-
-        //     planet.addChild(comet);
-        // }
-
     }
 
     generatePlanets() {
@@ -53,13 +22,15 @@ class Star extends CelestialBody {
 
         for (let i = 0; i < planets; i++) {
             const seed = this.rng.nextInt();
-            const distanceToParent = this.rng.nextFloat(50, 100) + 100 * i;
-            const angle = this.rng.nextFloat(0, Math.PI * 2);
 
-            const x = this.position.x + distanceToParent * Math.cos(angle);
-            const y = this.position.y + distanceToParent * Math.sin(angle);
+            const radiusRange = [5, 20];
+            const distanceToParentRange = [50 + 100 * i, 100 + 100 * i];
+            const massRange = [1, 10];
+            const speedRange = [0.001, 0.01];
 
-            const planet = new Planet(seed, x, y, this, true);
+            const planet = new Planet(seed, this);
+
+            planet.randomize(radiusRange, distanceToParentRange, massRange, speedRange);
 
             this.addChild(planet);
 
