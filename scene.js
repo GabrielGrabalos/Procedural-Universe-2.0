@@ -1,5 +1,5 @@
 class Scene {
-    constructor({ width = 800, height = 600, objects, autoResize = true, alpha = false, antialias = false, imageSmoothingEnabled = false }) {
+    constructor({ width = 800, height = 600, objects, autoResize = true, alpha = false, antialias = false, imageSmoothingEnabled = false, shouldCenterOnResize = false }) {
         // Create an offscreen canvas
         this.canvas = document.createElement('canvas');
         this.canvas.width = width;
@@ -13,11 +13,10 @@ class Scene {
 
         // If autoResize is true, resize the canvas when the window is resized
         if (autoResize) {
-            window.addEventListener('resize', () => {
-                this.setWidth(window.innerWidth);
-                this.setHeight(window.innerHeight);
-            });
+            window.addEventListener('resize', this.resize.bind(this));
         }
+
+        this.shouldCenterOnResize = shouldCenterOnResize;
 
         // Array to keep track of objects in the scene
         this.objects = [];
@@ -81,10 +80,15 @@ class Scene {
         }
     }
 
-    // Method to clear the canvas
-    clear() {
-        this.context.fillStyle = this.backgroundColor;
-        this.context.fillRect(0, 0, this.width, this.height);
+    resize() {
+        this.setWidth(window.innerWidth);
+        this.setHeight(window.innerHeight);
+
+        if (this.camera) {
+            this.camera.screenDimensions = { width: this.width, height: this.height };
+
+            if (this.shouldCenterOnResize) this.camera.CenterOffset();
+        }
     }
 
     start() {
@@ -97,15 +101,15 @@ class Scene {
 
         if (this.camera) {
             this.camera.update(input);
-            
+
             const mouse = this.camera.ScreenToWorld(input.mouse);
             input.mouse = mouse;
 
-            if(input.mouseleave){                
+            if (input.mouseleave) {
                 input.mouse = { x: -Infinity, y: -Infinity };
             }
 
-            if (input.click){
+            if (input.click) {
                 input.click = this.camera.click;
             }
         }
@@ -113,7 +117,7 @@ class Scene {
         this.update(input);
 
         this.objects.forEach(object => {
-            if (typeof object.update === 'function') {                
+            if (typeof object.update === 'function') {
                 object.update(input);
             }
         });
@@ -128,6 +132,12 @@ class Scene {
 
     update(input) {
         // Should be implemented by the subclass
+    }
+
+    // Method to clear the canvas
+    clear() {
+        this.context.fillStyle = this.backgroundColor;
+        this.context.fillRect(0, 0, this.width, this.height);
     }
 
     // Method to render the scene
