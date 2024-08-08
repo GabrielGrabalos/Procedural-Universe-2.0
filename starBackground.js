@@ -51,13 +51,7 @@ class StarBackground extends GameObject {
 
     update() {
         for (let i = 0; i < this.starCount; i++) {
-            this.stars[i].opacity += this.rng.nextFloat(-0.05, 0.05);
-
-            if (this.stars[i].opacity > 1) {
-                this.stars[i].opacity = 1;
-            } else if (this.stars[i].opacity < 0) {
-                this.stars[i].opacity = 0;
-            }
+            this.stars[i].opacity += Math.min(Math.max(this.rng.nextFloat(-0.08, 0.08), 0), 1);
         }
     }
 

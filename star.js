@@ -71,7 +71,7 @@ class Star extends CelestialBody {
         star.radius *= 30;
 
         star.click = () => {
-            // Nothing for now.
+            console.log(this.name);
         };
 
         return star;

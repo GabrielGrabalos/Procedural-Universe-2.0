@@ -51,6 +51,7 @@ class CelestialBody extends GameObject {
 
     click() {
         // Override this method.
+        console.log(this.name);
     }
 
     calcBeingHovered(mouse) {
@@ -89,7 +90,7 @@ class CelestialBody extends GameObject {
 
     drawOrbit(ctx) {
         ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = this.isBeingHovered ? 2 : 1;
+        ctx.lineWidth = this.isBeingHovered && !this.scene.camera.drag ? 2 : 1;
         ctx.beginPath();
         ctx.arc(this.parent.position.x, this.parent.position.y, this.distanceToParent, 0, Math.PI * 2);
         ctx.stroke();
