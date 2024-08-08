@@ -22,7 +22,7 @@ class StarBackground extends GameObject {
                 // Claculate x and y knowing that the camera is centered on (0, 0):
                 x: this.rng.nextFloat(-this.width / 2, this.width / 2),
                 y: this.rng.nextFloat(-this.height / 2, this.height / 2),
-                radius: this.rng.nextFloat(1, 3),
+                size: this.rng.nextFloat(2, 10),
                 opacity: this.rng.nextFloat(0, 1),
             });
         }
@@ -40,7 +40,7 @@ class StarBackground extends GameObject {
             this.stars.push({
                 x: this.rng.nextFloat(0, width),
                 y: this.rng.nextFloat(0, height),
-                radius: this.rng.nextFloat(1, 3),
+                size: this.rng.nextFloat(2, 6),
                 opacity: this.rng.nextFloat(0, 1),
             });
         }
@@ -51,7 +51,7 @@ class StarBackground extends GameObject {
 
     update() {
         for (let i = 0; i < this.starCount; i++) {
-            this.stars[i].opacity = Math.random();
+            this.stars[i].opacity += this.rng.nextFloat(-0.05, 0.05);
 
             if (this.stars[i].opacity > 1) {
                 this.stars[i].opacity = 1;
@@ -64,7 +64,7 @@ class StarBackground extends GameObject {
     draw(ctx) {
         for (let i = 0; i < this.starCount; i++) {
             ctx.fillStyle = `rgba(255, 255, 255, ${this.stars[i].opacity})`;
-            ctx.fillRect(this.stars[i].x, this.stars[i].y, this.stars[i].radius, this.stars[i].radius);
+            ctx.fillRect(this.stars[i].x, this.stars[i].y, this.stars[i].size, this.stars[i].size);
         }
     }
 }

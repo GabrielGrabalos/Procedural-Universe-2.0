@@ -13,12 +13,12 @@ class SolarSystemScene extends Scene {
         this.camera.CenterOffset();
     }
 
-    customResize(){
+    customResize() {
         this.camera.screenDimensions = { width: this.width, height: this.height };
         this.limitWorldDimensions();
     }
 
-    limitWorldDimensions(){
+    limitWorldDimensions() {
         let lastPlanet = this.star.children[this.star.children.length - 1];
         let lastMoon = lastPlanet.children[lastPlanet.children.length - 1] || { distanceToParent: 0, radius: 0 };
 
@@ -32,20 +32,25 @@ class SolarSystemScene extends Scene {
         };
     }
 
-    start(){
+    start() {
         this.star = this.star.toSystem();
 
         this.addObject(this.star);
-        
+
         this.star.generatePlanets();
-        
+
         this.limitWorldDimensions();
-        
-        this.addObject(new StarBackground({ width: this.camera.WorldDimensions.width, height: this.camera.WorldDimensions.height, seed: this.star.seed }), 0);
+
+        this.addObject(new StarBackground({
+            width: this.camera.WorldDimensions.width,
+            height: this.camera.WorldDimensions.height,
+            seed: this.star.seed,
+            starCount: 2000
+        }), 0);
 
     }
 
-    update(input){
-        this.requestCursor(this.camera.Dragging? "grabbing" : "grab");
+    update(input) {
+        this.requestCursor(this.camera.Dragging ? "grabbing" : "grab");
     }
 }
