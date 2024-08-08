@@ -61,12 +61,17 @@ class Scene {
     }
 
     // Method to add an object to the scene
-    addObject(object) {
+    addObject(object, depth) {
         if (typeof object.setScene === 'function') {
             object.setScene(this);
         }
 
-        this.objects.push(object);
+        if (depth !== undefined) {
+            this.objects.splice(depth, 0, object);
+        }
+        else {
+            this.objects.push(object);
+        }
     }
 
     // Method to remove an object from the scene

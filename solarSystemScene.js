@@ -36,13 +36,13 @@ class SolarSystemScene extends Scene {
         this.star = this.star.toSystem();
 
         this.addObject(this.star);
-
+        
         this.star.generatePlanets();
-
+        
         this.limitWorldDimensions();
+        
+        this.addObject(new StarBackground({ width: this.camera.WorldDimensions.width, height: this.camera.WorldDimensions.height, seed: this.star.seed }), 0);
 
-
-        this.addObject(new StarBackground({ width: this.camera.WorldDimensions.width, height: this.camera.WorldDimensions.height, seed: this.star.seed }));
     }
 
     update(input){
