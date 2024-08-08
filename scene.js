@@ -80,6 +80,10 @@ class Scene {
         }
     }
 
+    customResize(){
+        // Should be implemented by the subclass
+    }
+
     resize() {
         this.setWidth(window.innerWidth);
         this.setHeight(window.innerHeight);
@@ -89,6 +93,8 @@ class Scene {
 
             if (this.shouldCenterOnResize) this.camera.CenterOffset();
         }
+
+        this.customResize();
     }
 
     start() {

@@ -9,6 +9,8 @@ class CelestialBody extends GameObject {
 
         this.parent = parent; // Orbital parent.
         this.distanceToParent = 0; // Distance to parent.
+
+        this.children = [];
     }
 
     randomize(radiusRange, distanceRange = [0, 0], massRange, speedRange) {
@@ -19,8 +21,7 @@ class CelestialBody extends GameObject {
 
         this.color = `rgb(${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)})`;
 
-        this.angle = this.rng.nextFloat(0, Math.PI * 4); // TODO: Discover why it only works by multiplying by 4, instead of 2.
-        console.log(`Angle: ${this.angle * 180 / Math.PI}°`);
+        this.angle = this.rng.nextFloat(0, Math.PI * 2);
 
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
 
@@ -32,6 +33,7 @@ class CelestialBody extends GameObject {
 
     addChild(child) {
         child.parent = this;
+        this.children.push(child);
         this.scene.addObject(child);
     }
 

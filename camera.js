@@ -35,6 +35,7 @@ class Camera {
 
     set Scale(value) {
         this.scale = Math.min(Math.max(this.minZoom, value), this.maxZoom);
+        this.RestrictOffset();
     }
 
     get MinZoom() {
