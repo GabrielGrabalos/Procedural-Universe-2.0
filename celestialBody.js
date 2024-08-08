@@ -50,9 +50,23 @@ class CelestialBody extends GameObject {
         // Override this method.
     }
 
-    update(input) {
-        this.isBeingHovered = this.calculateDistance(input.mouse) <= this.radius;
+    calcBeingHovered(mouse) {
+        // Hovering planet or hovering orbit:
+        const distance = this.calculateDistance(mouse);
 
+        const range = 10;
+        let hoveringOrbit = false;
+
+        if (this.parent) {
+            const mouseDistanceToParent = this.parent.calculateDistance(mouse);
+            hoveringOrbit = mouseDistanceToParent >= this.distanceToParent - range && mouseDistanceToParent <= this.distanceToParent + range
+        }
+
+        return distance <= this.radius || hoveringOrbit;
+    }
+
+    update(input) {
+        this.isBeingHovered = this.calcBeingHovered(input.mouse);
         if (this.isBeingHovered) {
             this.scene.requestCursor("pointer");
 
@@ -72,7 +86,7 @@ class CelestialBody extends GameObject {
 
     drawOrbit(ctx) {
         ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = 1;
+        ctx.lineWidth = this.isBeingHovered ? 2 : 1;
         ctx.beginPath();
         ctx.arc(this.parent.position.x, this.parent.position.y, this.distanceToParent, 0, Math.PI * 2);
         ctx.stroke();
