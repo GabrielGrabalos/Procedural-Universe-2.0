@@ -9,14 +9,17 @@ class Star extends CelestialBody {
         this.color = Star.starColors[this.rng.nextInt(0, Star.starColors.length)];
         this.radius = this.rng.nextFloat(5, 20);
 
-        this.shiftX = this.rng.nextFloat(-40, 40); // TODO: Change this to multiply the interval
-        this.shiftY = this.rng.nextFloat(-40, 40); // TODO: Change this to multiply the interval
+        const shiftRange = this.scene?.interval ? this.scene.interval * 0.8 : 40; // Not working, scene is null.
+
+        this.shiftX = this.rng.nextFloat(-shiftRange, shiftRange);
+        this.shiftY = this.rng.nextFloat(-shiftRange, shiftRange);
 
         this.isBeingHovered = false;
 
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
     }
 
+    // TODO: update hyperparameters
     generatePlanets() {
         const planets = this.rng.nextInt(0, 10);
 
@@ -30,9 +33,9 @@ class Star extends CelestialBody {
 
             const planet = new Planet(seed, this);
 
-            planet.randomize(radiusRange, distanceToParentRange, massRange, speedRange);
-
             this.addChild(planet);
+            
+            planet.randomize(radiusRange, distanceToParentRange, massRange, speedRange);
 
             planet.generateMoons();
         }

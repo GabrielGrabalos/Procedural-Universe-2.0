@@ -19,7 +19,8 @@ class CelestialBody extends GameObject {
 
         this.color = `rgb(${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)}, ${this.rng.nextInt(0, 255)})`;
 
-        this.angle = this.rng.nextFloat(0, Math.PI * 2);
+        this.angle = this.rng.nextFloat(0, Math.PI * 4); // TODO: Discover why it only works by multiplying by 4, instead of 2.
+        console.log(`Angle: ${this.angle * 180 / Math.PI}°`);
 
         this.name = NameGenerator.generateName(this.rng, this.rng.nextInt(2, 4));
 
@@ -77,10 +78,10 @@ class CelestialBody extends GameObject {
 
         if (this.parent) {
             // Update the orbit according to the speed.
-            this.position.x = this.parent.position.x + this.distanceToParent * Math.cos(this.angle / this.distanceToParent);
-            this.position.y = this.parent.position.y + this.distanceToParent * Math.sin(this.angle / this.distanceToParent);
+            this.position.x = this.parent.position.x + this.distanceToParent * Math.cos(this.angle);
+            this.position.y = this.parent.position.y + this.distanceToParent * Math.sin(this.angle);
 
-            this.angle += this.speed;
+            this.angle += this.speed / this.distanceToParent;
         }
     }
 

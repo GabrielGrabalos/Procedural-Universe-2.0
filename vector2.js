@@ -32,4 +32,8 @@ class Vector2 {
     dot(otherVector) {
         return this.x * otherVector.x + this.y * otherVector.y;
     }
+
+    distanceTo(otherVector) {
+        return this.subtract(otherVector).magnitude();
+    }
 }

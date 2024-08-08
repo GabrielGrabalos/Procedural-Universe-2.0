@@ -9,7 +9,7 @@ class RandomNumberGenerator {
     }
 
     nextFloat(min, max) {
-        return min + this.next() * (max - min) / 0xFFFFFFFF;
+        return min + this.next() * (max - min) / (0xFFFFFFFF + 1);
     }
 
     next() {
@@ -34,7 +34,6 @@ class RandomNumberGenerator {
     static randFloat(seed, min, max) {
         return min + RandomNumberGenerator.random(seed) * (max - min);
     }
-
 
     draw(ctx) {
         const initialTime = Date.now();
